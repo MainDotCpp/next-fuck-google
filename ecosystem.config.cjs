@@ -51,7 +51,6 @@ module.exports = {
 
       // Advanced options
       instance_var: 'INSTANCE_ID', // Environment variable for instance ID
-      increment_var: 'PORT', // Increment this variable for each instance
     },
   ],
 }
