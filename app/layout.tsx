@@ -30,7 +30,7 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
 
   // 调用过滤接口
   // 开发时使用 mockCheckAccess，生产时使用 checkAccess
-  const allowed = await mockCheckAccess(pathname, 500, true)
+  const allowed = await mockCheckAccess(pathname, 1000, true)
   // const allowed = await checkAccess(pathname);
 
   // 如果接口返回 false，直接显示 404
