@@ -15,17 +15,17 @@ module.exports = {
       script: 'node_modules/next/dist/bin/next',
       args: 'start',
       cwd: './',
-      instances: 'max', // Use all available CPU cores
+      instances: '2', // Use all available CPU cores
       exec_mode: 'cluster', // Enable cluster mode for better performance
       watch: false, // Disable watch in production
       max_memory_restart: '1G', // Restart if memory exceeds 1GB
       env: {
         NODE_ENV: 'development',
-        PORT: 3000,
+        PORT: 8888,
       },
       env_production: {
         NODE_ENV: 'production',
-        PORT: 3000,
+        PORT: 8888,
       },
       // Logging configuration
       error_file: './logs/pm2-error.log',
