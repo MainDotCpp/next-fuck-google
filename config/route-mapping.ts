@@ -13,7 +13,7 @@ export type RouteMapping = {
 };
 
 export const routeMapping: RouteMapping = {
-	"/":"/",
+	"/":"/white/sites",
 	"/a": "/pages/page1",
 };
 
