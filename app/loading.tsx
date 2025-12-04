@@ -5,7 +5,6 @@ export default function Loading() {
 	return (
 		<>
 		<TextShimmer className="m-auto text-center" as='div'>Loading...</TextShimmer>
-		<SparklesText className="m-auto text-center" text="Loading..."></SparklesText>
 		</>
 	);
 }
