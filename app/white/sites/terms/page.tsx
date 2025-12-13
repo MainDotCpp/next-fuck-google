@@ -1,7 +1,11 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { getSiteName, getDomain } from "@/lib/utils"
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const siteName = await getSiteName()
+  const domain = await getDomain()
+  
   return (
     <main className="min-h-screen">
       <Header />
@@ -14,14 +18,14 @@ export default function TermsPage() {
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Agreement to Terms</h2>
               <p className="text-muted-foreground mb-6">
-                By accessing or using HostCloud's services, you agree to be bound by these Terms of Service and all
+                By accessing or using {siteName}'s services, you agree to be bound by these Terms of Service and all
                 applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from
                 using our services.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Use License</h2>
               <p className="text-muted-foreground mb-4">
-                Permission is granted to temporarily use HostCloud's services for personal or commercial purposes. This
+                Permission is granted to temporarily use {siteName}'s services for personal or commercial purposes. This
                 license does not include:
               </p>
               <ul className="list-disc list-inside text-muted-foreground mb-6 space-y-2">
@@ -57,15 +61,15 @@ export default function TermsPage() {
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Limitation of Liability</h2>
               <p className="text-muted-foreground mb-6">
-                HostCloud shall not be liable for any indirect, incidental, special, consequential, or punitive damages
+                {siteName} shall not be liable for any indirect, incidental, special, consequential, or punitive damages
                 resulting from your use or inability to use our services.
               </p>
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Contact Information</h2>
               <p className="text-muted-foreground mb-6">
                 For questions about these Terms of Service, please contact us at{" "}
-                <a href="mailto:legal@hostcloud.com" className="text-primary hover:underline">
-                  legal@hostcloud.com
+                <a href={`mailto:legal@${domain}`} className="text-primary hover:underline">
+                  legal@{domain}
                 </a>
                 .
               </p>

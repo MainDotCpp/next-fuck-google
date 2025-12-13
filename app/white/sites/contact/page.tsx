@@ -2,8 +2,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Mail, MessageSquare, Phone } from "lucide-react"
+import { getDomain } from "@/lib/utils"
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const domain = await getDomain()
+  
   return (
     <main className="min-h-screen">
       <Header />
@@ -21,7 +24,7 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6" />
                 </div>
                 <h3 className="font-semibold mb-2">Email</h3>
-                <p className="text-sm text-muted-foreground">support@hostcloud.com</p>
+                <p className="text-sm text-muted-foreground">support@{domain}</p>
               </div>
 
               <div className="text-center">

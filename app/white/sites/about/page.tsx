@@ -1,22 +1,25 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Users, Target, Award } from "lucide-react"
+import { getSiteName } from "@/lib/utils"
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const siteName = await getSiteName()
+  
   return (
     <main className="min-h-screen">
       <Header />
       <section className="py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 text-center">About HostCloud</h1>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 text-center">About {siteName}</h1>
             <p className="text-lg text-muted-foreground text-center mb-16">
               We're on a mission to make web hosting simple, reliable, and accessible for everyone.
             </p>
 
             <div className="prose prose-lg mx-auto mb-16">
               <p className="text-muted-foreground leading-relaxed">
-                Founded in 2020, HostCloud has grown from a small startup to a leading web hosting provider serving
+                Founded in 2020, {siteName} has grown from a small startup to a leading web hosting provider serving
                 thousands of customers worldwide. Our commitment to innovation, reliability, and customer satisfaction
                 has made us the trusted choice for developers and businesses alike.
               </p>

@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button"
 import { Server } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export function Header() {
+export async function Header() {
+  const siteName = await getSiteName()
+  
   return (
     <header className="border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,7 +14,7 @@ export function Header() {
             <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary">
               <Server className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="text-xl font-semibold tracking-tight">HostCloud</span>
+            <span className="text-xl font-semibold tracking-tight">{siteName}</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6">

@@ -3,12 +3,15 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function GettingStartedPage() {
+export default async function GettingStartedPage() {
+  const siteName = await getSiteName()
+  
   const steps = [
     {
       title: "Create Your Account",
-      description: "Sign up for a free HostCloud account and verify your email address.",
+      description: `Sign up for a free ${siteName} account and verify your email address.`,
     },
     {
       title: "Choose Your Plan",
@@ -16,7 +19,7 @@ export default function GettingStartedPage() {
     },
     {
       title: "Add Your Domain",
-      description: "Connect your existing domain or register a new one through HostCloud.",
+      description: `Connect your existing domain or register a new one through ${siteName}.`,
     },
     {
       title: "Deploy Your Website",
@@ -41,7 +44,7 @@ export default function GettingStartedPage() {
             <div className="mb-16">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Getting Started</h1>
               <p className="text-lg text-muted-foreground">
-                Welcome to HostCloud! Follow this guide to get your website up and running in minutes.
+                Welcome to {siteName}! Follow this guide to get your website up and running in minutes.
               </p>
             </div>
 

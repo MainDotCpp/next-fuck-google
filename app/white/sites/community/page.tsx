@@ -2,13 +2,16 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { MessageSquare, Users, BookOpen, Github } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function CommunityPage() {
+export default async function CommunityPage() {
+  const siteName = await getSiteName()
+  
   const resources = [
     {
       icon: MessageSquare,
       title: "Community Forum",
-      description: "Join discussions, ask questions, and share knowledge with other HostCloud users",
+      description: `Join discussions, ask questions, and share knowledge with other ${siteName} users`,
       link: "#",
     },
     {

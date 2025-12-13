@@ -1,7 +1,11 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { getSiteName, getDomain } from "@/lib/utils"
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const siteName = await getSiteName()
+  const domain = await getDomain()
+  
   return (
     <main className="min-h-screen">
       <Header />
@@ -14,7 +18,7 @@ export default function PrivacyPage() {
 
               <h2 className="text-2xl font-bold mt-8 mb-4">Introduction</h2>
               <p className="text-muted-foreground mb-6">
-                HostCloud ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains
+                {siteName} ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains
                 how we collect, use, disclose, and safeguard your information when you use our hosting services and
                 website.
               </p>
@@ -57,8 +61,8 @@ export default function PrivacyPage() {
               <h2 className="text-2xl font-bold mt-8 mb-4">Contact Us</h2>
               <p className="text-muted-foreground mb-6">
                 If you have questions about this Privacy Policy, please contact us at{" "}
-                <a href="mailto:privacy@hostcloud.com" className="text-primary hover:underline">
-                  privacy@hostcloud.com
+                <a href={`mailto:privacy@${domain}`} className="text-primary hover:underline">
+                  privacy@{domain}
                 </a>
                 .
               </p>

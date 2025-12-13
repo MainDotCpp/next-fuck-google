@@ -3,8 +3,12 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Code, Key, Book } from "lucide-react"
 import Link from "next/link"
+import { getSiteName, getDomain } from "@/lib/utils"
 
-export default function ApiPage() {
+export default async function ApiPage() {
+  const siteName = await getSiteName()
+  const domain = await getDomain()
+  
   const endpoints = [
     {
       method: "GET",
@@ -42,7 +46,7 @@ export default function ApiPage() {
             <div className="mb-16">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">API Reference</h1>
               <p className="text-lg text-muted-foreground">
-                Complete API documentation for developers. Integrate HostCloud into your applications with our RESTful API.
+                Complete API documentation for developers. Integrate {siteName} into your applications with our RESTful API.
               </p>
             </div>
 
@@ -97,7 +101,7 @@ export default function ApiPage() {
 
             <div className="border border-border/40 rounded-lg p-8 mb-8 bg-secondary/30">
               <h3 className="font-semibold mb-2">Base URL</h3>
-              <code className="text-sm font-mono text-muted-foreground">https://api.hostcloud.com</code>
+              <code className="text-sm font-mono text-muted-foreground">https://api.{domain}</code>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">

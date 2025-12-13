@@ -2,8 +2,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Calendar, Clock, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const siteName = await getSiteName()
+  
   const posts = [
     {
       title: "10 Tips for Optimizing Your Website Performance",
@@ -20,8 +23,8 @@ export default function BlogPage() {
       category: "Security",
     },
     {
-      title: "Getting Started with WordPress on HostCloud",
-      excerpt: "Step-by-step guide to installing and configuring WordPress on your HostCloud hosting.",
+      title: `Getting Started with WordPress on ${siteName}`,
+      excerpt: `Step-by-step guide to installing and configuring WordPress on your ${siteName} hosting.`,
       date: "January 5, 2025",
       readTime: "6 min read",
       category: "Tutorial",
@@ -58,7 +61,7 @@ export default function BlogPage() {
             <div className="mb-16">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Blog</h1>
               <p className="text-lg text-muted-foreground">
-                Latest news, tutorials, and insights from the HostCloud team.
+                Latest news, tutorials, and insights from the {siteName} team.
               </p>
             </div>
 

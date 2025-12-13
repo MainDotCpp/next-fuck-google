@@ -2,8 +2,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Book, Code, FileText, Video } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function DocsPage() {
+export default async function DocsPage() {
+  const siteName = await getSiteName()
+  
   const sections = [
     {
       icon: Book,
@@ -39,7 +42,7 @@ export default function DocsPage() {
           <div className="text-center mb-16">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Documentation</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Everything you need to know about using HostCloud.
+              Everything you need to know about using {siteName}.
             </p>
           </div>
 

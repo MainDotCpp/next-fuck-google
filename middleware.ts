@@ -16,6 +16,9 @@ export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('x-pathname', pathname)
   requestHeaders.set('x-original-path', pathname)
+  // 设置域名到 header，供组件使用
+  const host = request.headers.get('host') || request.headers.get('x-forwarded-host') || 'localhost'
+  requestHeaders.set('x-host', host)
 
   if (mappedPath) {
     // 使用 rewrite 重写 URL，保持浏览器 URL 不变
@@ -26,6 +29,7 @@ export function middleware(request: NextRequest) {
     // 将 header 传递给重写后的请求
     response.headers.set('x-pathname', pathname)
     response.headers.set('x-original-path', pathname)
+    response.headers.set('x-host', host)
     return response
   }
 
@@ -37,6 +41,7 @@ export function middleware(request: NextRequest) {
   })
   response.headers.set('x-pathname', pathname)
   response.headers.set('x-original-path', pathname)
+  response.headers.set('x-host', host)
   return response
 }
 

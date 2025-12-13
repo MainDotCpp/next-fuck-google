@@ -1,6 +1,9 @@
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export function Footer() {
+export async function Footer() {
+  const siteName = await getSiteName()
+  
   return (
     <footer className="border-t border-border/40 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,7 +94,7 @@ export function Footer() {
         </div>
 
         <div className="pt-8 border-t border-border/40 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">© 2025 HostCloud. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2025 {siteName}. All rights reserved.</p>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <Link href="/white/sites/privacy" className="hover:text-foreground transition-colors">
               Privacy Policy

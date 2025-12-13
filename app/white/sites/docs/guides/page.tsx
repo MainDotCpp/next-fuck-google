@@ -2,12 +2,15 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Book, ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function GuidesPage() {
+export default async function GuidesPage() {
+  const siteName = await getSiteName()
+  
   const guides = [
     {
       title: "Setting Up Your First Website",
-      description: "Learn how to deploy your first website on HostCloud",
+      description: `Learn how to deploy your first website on ${siteName}`,
       category: "Basics",
       link: "#",
     },
@@ -66,7 +69,7 @@ export default function GuidesPage() {
             <div className="mb-16">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Guides & Tutorials</h1>
               <p className="text-lg text-muted-foreground">
-                Step-by-step tutorials and best practices to help you get the most out of HostCloud.
+                Step-by-step tutorials and best practices to help you get the most out of {siteName}.
               </p>
             </div>
 

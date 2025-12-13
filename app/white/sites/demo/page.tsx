@@ -3,8 +3,11 @@ import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import { Play, Check } from "lucide-react"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function DemoPage() {
+export default async function DemoPage() {
+  const siteName = await getSiteName()
+  
   const features = [
     "Real-time performance monitoring",
     "Automated scaling and optimization",
@@ -23,7 +26,7 @@ export default function DemoPage() {
             <div className="text-center mb-16">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Platform Demo</h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                See HostCloud in action. Experience the power of our platform with an interactive demonstration.
+                See {siteName} in action. Experience the power of our platform with an interactive demonstration.
               </p>
             </div>
 

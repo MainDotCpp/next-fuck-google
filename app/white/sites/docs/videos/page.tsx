@@ -1,12 +1,15 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Play, Clock } from "lucide-react"
+import { getSiteName } from "@/lib/utils"
 
-export default function VideosPage() {
+export default async function VideosPage() {
+  const siteName = await getSiteName()
+  
   const videos = [
     {
-      title: "Getting Started with HostCloud",
-      description: "Learn the basics of HostCloud and deploy your first website",
+      title: `Getting Started with ${siteName}`,
+      description: `Learn the basics of ${siteName} and deploy your first website`,
       duration: "5:23",
       thumbnail: "Getting Started",
     },
@@ -48,7 +51,7 @@ export default function VideosPage() {
     },
     {
       title: "API Integration Tutorial",
-      description: "Integrate HostCloud API into your applications",
+      description: `Integrate ${siteName} API into your applications`,
       duration: "11:30",
       thumbnail: "API",
     },
@@ -63,7 +66,7 @@ export default function VideosPage() {
             <div className="mb-16">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Video Tutorials</h1>
               <p className="text-lg text-muted-foreground">
-                Watch and learn from our comprehensive video library. Visual guides to help you master HostCloud.
+                Watch and learn from our comprehensive video library. Visual guides to help you master {siteName}.
               </p>
             </div>
 

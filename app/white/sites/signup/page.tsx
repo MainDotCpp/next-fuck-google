@@ -2,8 +2,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { getSiteName } from "@/lib/utils"
 
-export default function SignupPage() {
+export default async function SignupPage() {
+  const siteName = await getSiteName()
+  
   return (
     <main className="min-h-screen">
       <Header />
@@ -12,7 +15,7 @@ export default function SignupPage() {
           <div className="max-w-md mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-4">Create Account</h1>
-              <p className="text-muted-foreground">Start your journey with HostCloud today</p>
+              <p className="text-muted-foreground">Start your journey with {siteName} today</p>
             </div>
 
             <div className="border border-border/40 rounded-lg p-8">
