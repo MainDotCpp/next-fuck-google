@@ -78,7 +78,7 @@ export default function DomainsPage() {
 
             <div className="text-center space-y-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/products">Browse All Products</Link>
+                <Link href="/products">Browse All Products</Link>
               </Button>
             </div>
           </div>

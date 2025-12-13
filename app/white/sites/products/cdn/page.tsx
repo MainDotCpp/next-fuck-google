@@ -78,7 +78,7 @@ export default function CdnPage() {
 
             <div className="text-center space-y-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/pricing">View Pricing</Link>
+                <Link href="/pricing">View Pricing</Link>
               </Button>
             </div>
           </div>

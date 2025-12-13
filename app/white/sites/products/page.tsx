@@ -11,28 +11,28 @@ export default function ProductsPage() {
       title: "Web Hosting",
       description: "High-performance hosting with 99.9% uptime guarantee. Perfect for websites of all sizes.",
       features: ["SSD Storage", "Daily Backups", "Free Migration"],
-      link: "/white/sites/products/hosting",
+      link: "/products/hosting",
     },
     {
       icon: Globe,
       title: "Domain Management",
       description: "Register and manage domains with ease. Over 400+ domain extensions available.",
       features: ["Domain Privacy", "DNS Management", "Easy Transfer"],
-      link: "/white/sites/products/domains",
+      link: "/products/domains",
     },
     {
       icon: Shield,
       title: "SSL Certificates",
       description: "Secure your website with industry-standard SSL certificates. Free with all plans.",
       features: ["256-bit Encryption", "Auto-renewal", "Trust Seal"],
-      link: "/white/sites/products/ssl",
+      link: "/products/ssl",
     },
     {
       icon: Zap,
       title: "CDN",
       description: "Accelerate your website with our global content delivery network.",
       features: ["Global Network", "DDoS Protection", "Real-time Analytics"],
-      link: "/white/sites/products/cdn",
+      link: "/products/cdn",
     },
   ]
 

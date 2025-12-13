@@ -10,19 +10,19 @@ export default function SolutionsPage() {
       icon: Building2,
       title: "Enterprise",
       description: "Scalable solutions for large organizations with advanced security and compliance requirements.",
-      link: "/white/sites/solutions/enterprise",
+      link: "/solutions/enterprise",
     },
     {
       icon: Code,
       title: "Developers",
       description: "Powerful tools and APIs for developers to build, deploy, and scale applications faster.",
-      link: "/white/sites/solutions/developers",
+      link: "/solutions/developers",
     },
     {
       icon: ShoppingCart,
       title: "E-commerce",
       description: "High-performance hosting optimized for online stores with seamless payment integration.",
-      link: "/white/sites/solutions/ecommerce",
+      link: "/solutions/ecommerce",
     },
   ]
 

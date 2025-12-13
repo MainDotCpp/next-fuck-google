@@ -76,11 +76,11 @@ export default async function SignupPage() {
                   />
                   <label htmlFor="terms" className="ml-2 text-sm text-muted-foreground">
                     I agree to the{" "}
-                    <Link href="/white/sites/terms" className="text-primary hover:underline">
+                    <Link href="/terms" className="text-primary hover:underline">
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link href="/white/sites/privacy" className="text-primary hover:underline">
+                    <Link href="/privacy" className="text-primary hover:underline">
                       Privacy Policy
                     </Link>
                   </label>
@@ -93,7 +93,7 @@ export default async function SignupPage() {
 
               <div className="mt-6 text-center text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <Link href="/white/sites/login" className="text-primary hover:underline font-medium">
+                <Link href="/login" className="text-primary hover:underline font-medium">
                   Sign in
                 </Link>
               </div>

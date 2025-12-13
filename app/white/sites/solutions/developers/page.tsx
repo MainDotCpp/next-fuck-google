@@ -75,11 +75,11 @@ export default function DevelopersPage() {
 
             <div className="text-center space-y-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/docs/api">View API Documentation</Link>
+                <Link href="/docs/api">View API Documentation</Link>
               </Button>
               <div>
                 <Button variant="outline" asChild>
-                  <Link href="/white/sites/docs/getting-started">Get Started Guide</Link>
+                  <Link href="/docs/getting-started">Get Started Guide</Link>
                 </Button>
               </div>
             </div>

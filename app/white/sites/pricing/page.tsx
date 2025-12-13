@@ -1,45 +1,45 @@
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
-import { Check } from "lucide-react"
-import Link from "next/link"
+import { Check } from 'lucide-react'
+import Link from 'next/link'
+import { Footer } from '@/components/footer'
+import { Header } from '@/components/header'
+import { Button } from '@/components/ui/button'
 
 export default function PricingPage() {
   const plans = [
     {
-      name: "Starter",
-      price: "$9",
-      description: "Perfect for personal projects and small websites",
-      features: ["10 GB Storage", "100 GB Bandwidth", "1 Website", "Free SSL Certificate", "24/7 Support"],
+      name: 'Starter',
+      price: '$9',
+      description: 'Perfect for personal projects and small websites',
+      features: ['10 GB Storage', '100 GB Bandwidth', '1 Website', 'Free SSL Certificate', '24/7 Support'],
     },
     {
-      name: "Professional",
-      price: "$29",
-      description: "Ideal for growing businesses and multiple projects",
+      name: 'Professional',
+      price: '$29',
+      description: 'Ideal for growing businesses and multiple projects',
       features: [
-        "50 GB Storage",
-        "500 GB Bandwidth",
-        "5 Websites",
-        "Free SSL Certificate",
-        "Priority Support",
-        "Daily Backups",
-        "CDN Included",
+        '50 GB Storage',
+        '500 GB Bandwidth',
+        '5 Websites',
+        'Free SSL Certificate',
+        'Priority Support',
+        'Daily Backups',
+        'CDN Included',
       ],
       popular: true,
     },
     {
-      name: "Enterprise",
-      price: "$99",
-      description: "Advanced features for large-scale applications",
+      name: 'Enterprise',
+      price: '$99',
+      description: 'Advanced features for large-scale applications',
       features: [
-        "Unlimited Storage",
-        "Unlimited Bandwidth",
-        "Unlimited Websites",
-        "Free SSL Certificate",
-        "Dedicated Support",
-        "Hourly Backups",
-        "CDN Included",
-        "Advanced Security",
+        'Unlimited Storage',
+        'Unlimited Bandwidth',
+        'Unlimited Websites',
+        'Free SSL Certificate',
+        'Dedicated Support',
+        'Hourly Backups',
+        'CDN Included',
+        'Advanced Security',
       ],
     },
   ]
@@ -57,11 +57,11 @@ export default function PricingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {plans.map((plan) => (
+            {plans.map(plan => (
               <div
                 key={plan.name}
                 className={`relative rounded-lg border p-8 ${
-                  plan.popular ? "border-primary shadow-lg scale-105" : "border-border/40"
+                  plan.popular ? 'border-primary shadow-lg scale-105' : 'border-border/40'
                 }`}
               >
                 {plan.popular && (
@@ -79,7 +79,7 @@ export default function PricingPage() {
                 </div>
 
                 <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature) => (
+                  {plan.features.map(feature => (
                     <li key={feature} className="flex items-center gap-2">
                       <Check className="h-5 w-5 text-primary flex-shrink-0" />
                       <span className="text-sm">{feature}</span>
@@ -88,11 +88,11 @@ export default function PricingPage() {
                 </ul>
 
                 <Button
-                  className={`w-full ${plan.popular ? "bg-primary hover:bg-primary/90" : ""}`}
-                  variant={plan.popular ? "default" : "outline"}
+                  className={`w-full ${plan.popular ? 'bg-primary hover:bg-primary/90' : ''}`}
+                  variant={plan.popular ? 'default' : 'outline'}
                   asChild
                 >
-                  <Link href="/white/sites/signup">Get Started</Link>
+                  <Link href="/signup">Get Started</Link>
                 </Button>
               </div>
             ))}

@@ -90,13 +90,13 @@ export default async function GettingStartedPage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/signup">
+                <Link href="/signup">
                   Get Started
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/white/sites/docs/videos">Watch Video Tutorials</Link>
+                <Link href="/docs/videos">Watch Video Tutorials</Link>
               </Button>
             </div>
           </div>

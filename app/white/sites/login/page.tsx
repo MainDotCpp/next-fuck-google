@@ -37,7 +37,7 @@ export default async function LoginPage() {
                     <label htmlFor="password" className="block text-sm font-medium">
                       Password
                     </label>
-                    <Link href="/white/sites/forgot-password" className="text-sm text-primary hover:underline">
+                    <Link href="/forgot-password" className="text-sm text-primary hover:underline">
                       Forgot password?
                     </Link>
                   </div>
@@ -67,7 +67,7 @@ export default async function LoginPage() {
 
               <div className="mt-6 text-center text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <Link href="/white/sites/signup" className="text-primary hover:underline font-medium">
+                <Link href="/signup" className="text-primary hover:underline font-medium">
                   Sign up
                 </Link>
               </div>

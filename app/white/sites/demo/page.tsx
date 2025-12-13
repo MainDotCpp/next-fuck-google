@@ -41,7 +41,7 @@ export default async function DemoPage() {
               </div>
               <div className="text-center">
                 <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                  <Link href="/white/sites/signup">Start Free Trial</Link>
+                  <Link href="/signup">Start Free Trial</Link>
                 </Button>
               </div>
             </div>
@@ -59,10 +59,10 @@ export default async function DemoPage() {
               <p className="text-muted-foreground mb-4">Want to see more?</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="outline" asChild>
-                  <Link href="/white/sites/products">Explore Products</Link>
+                  <Link href="/products">Explore Products</Link>
                 </Button>
                 <Button variant="outline" asChild>
-                  <Link href="/white/sites/contact">Contact Sales</Link>
+                  <Link href="/contact">Contact Sales</Link>
                 </Button>
               </div>
             </div>

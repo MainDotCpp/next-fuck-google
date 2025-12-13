@@ -75,7 +75,7 @@ export default function EnterprisePage() {
 
             <div className="text-center">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/contact">Contact Sales</Link>
+                <Link href="/contact">Contact Sales</Link>
               </Button>
             </div>
           </div>

@@ -76,13 +76,13 @@ export default async function CommunityPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/white/sites/docs"
+                  href="/docs"
                   className="px-6 py-3 rounded-md border border-border/40 hover:border-primary/50 transition-colors"
                 >
                   Read Documentation
                 </Link>
                 <Link
-                  href="/white/sites/contact"
+                  href="/contact"
                   className="px-6 py-3 rounded-md border border-border/40 hover:border-primary/50 transition-colors"
                 >
                   Contact Us

@@ -29,7 +29,7 @@ export function Hero() {
               className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto group"
               asChild
             >
-              <Link href="/white/sites/demo">
+              <Link href="/demo">
                 Get a Demo
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
@@ -40,7 +40,7 @@ export function Hero() {
               className="w-full sm:w-auto border-border hover:bg-secondary bg-transparent"
               asChild
             >
-              <Link href="/white/sites/products">
+              <Link href="/products">
                 <Play className="mr-2 h-4 w-4" />
                 Explore Products
               </Link>

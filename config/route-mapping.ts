@@ -22,19 +22,8 @@ export interface RouteAlias {
  * 配置格式：{ alias: '/page1', target: '/p1' }
  */
 export const routeAliases: RouteAlias[] = [
-  {
-    alias: '/',
-    target: '/white/sites',
-  },
-  {
-    alias: '/a',
-    target: '/pages/page1',
-  },
-  // 示例：将 /page1 映射到 /p1
-  // {
-  //   alias: '/page1',
-  //   target: '/p1',
-  // },
+  { alias: '/', target: '/white/sites' },
+  { alias: '/a', target: '/pages/page1' },
 ]
 
 /**
@@ -60,16 +49,24 @@ export function getMappedPage(requestPath: string): string | null {
   for (const aliasConfig of routeAliases) {
     const normalizedAlias = normalizePath(aliasConfig.alias)
 
-    // 精确匹配或前缀匹配
-    if (normalizedPath === normalizedAlias || normalizedPath.startsWith(`${normalizedAlias}/`)) {
+    // 精确匹配
+    if (normalizedPath === normalizedAlias) {
       const normalizedTarget = normalizePath(aliasConfig.target)
+      return normalizedTarget
+    }
 
-      // 如果是精确匹配
-      if (normalizedPath === normalizedAlias) {
-        return normalizedTarget
-      }
+    // 前缀匹配
+    // 特殊处理根路径：当别名是 '/' 时，所有路径都匹配
+    if (normalizedAlias === '/') {
+      const normalizedTarget = normalizePath(aliasConfig.target)
+      // 直接拼接目标路径和请求路径（请求路径已经以 / 开头）
+      return `${normalizedTarget}${normalizedPath}`
+    }
 
-      // 如果是前缀匹配，替换前缀并保留剩余路径
+    // 其他前缀匹配
+    if (normalizedPath.startsWith(`${normalizedAlias}/`)) {
+      const normalizedTarget = normalizePath(aliasConfig.target)
+      // 替换前缀并保留剩余路径
       const remainingPath = normalizedPath.slice(normalizedAlias.length)
       return `${normalizedTarget}${remainingPath}`
     }

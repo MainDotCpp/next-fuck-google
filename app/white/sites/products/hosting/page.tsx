@@ -80,11 +80,11 @@ export default function HostingPage() {
 
             <div className="text-center space-y-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/pricing">View Pricing Plans</Link>
+                <Link href="/pricing">View Pricing Plans</Link>
               </Button>
               <div>
                 <Button variant="outline" asChild>
-                  <Link href="/white/sites/contact">Contact Sales</Link>
+                  <Link href="/contact">Contact Sales</Link>
                 </Button>
               </div>
             </div>

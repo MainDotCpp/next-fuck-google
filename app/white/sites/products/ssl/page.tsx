@@ -78,7 +78,7 @@ export default function SslPage() {
 
             <div className="text-center space-y-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/pricing">View Hosting Plans</Link>
+                <Link href="/pricing">View Hosting Plans</Link>
               </Button>
             </div>
           </div>

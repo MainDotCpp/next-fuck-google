@@ -12,25 +12,25 @@ export default async function DocsPage() {
       icon: Book,
       title: "Getting Started",
       description: "Learn the basics and set up your first website",
-      link: "/white/sites/docs/getting-started",
+      link: "/docs/getting-started",
     },
     {
       icon: Code,
       title: "API Reference",
       description: "Complete API documentation for developers",
-      link: "/white/sites/docs/api",
+      link: "/docs/api",
     },
     {
       icon: FileText,
       title: "Guides",
       description: "Step-by-step tutorials and best practices",
-      link: "/white/sites/docs/guides",
+      link: "/docs/guides",
     },
     {
       icon: Video,
       title: "Video Tutorials",
       description: "Watch and learn from our video library",
-      link: "/white/sites/docs/videos",
+      link: "/docs/videos",
     },
   ]
 

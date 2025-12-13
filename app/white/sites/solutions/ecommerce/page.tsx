@@ -75,7 +75,7 @@ export default function EcommercePage() {
 
             <div className="text-center">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/pricing">View Pricing</Link>
+                <Link href="/pricing">View Pricing</Link>
               </Button>
             </div>
           </div>

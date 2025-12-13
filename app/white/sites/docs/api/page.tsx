@@ -106,10 +106,10 @@ export default async function ApiPage() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-                <Link href="/white/sites/docs/guides">View Guides</Link>
+                <Link href="/docs/guides">View Guides</Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/white/sites/solutions/developers">Developer Solutions</Link>
+                <Link href="/solutions/developers">Developer Solutions</Link>
               </Button>
             </div>
           </div>
