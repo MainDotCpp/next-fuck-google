@@ -1,33 +1,62 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  
 }
-
-// Example model - modify according to your needs
-model User {
+// Access log model for tracking all access attempts
+model AccessLog {
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  requestId String   @unique
+  timestamp DateTime @default(now())
+
+  // Request information
+  method      String?
+  path        String
+  fullUrl     String
+  queryParams String?
+
+  // Client information
+  clientIp       String
+  userAgent      String?
+  acceptLanguage String?
+  referer        String?
+
+  // Check results
+  languageCheckPassed Boolean
+  language           String?
+  allowedLanguages   String[] // JSON array stored as text
+
+  urlParamsCheckPassed Boolean
+  urlParams            String?
+  urlParamsPattern     String?
+
+  apiCheckPassed Boolean
+  apiResponseCode     Int?
+  apiResponseMessage   String?
+  apiResponseSuccess   Boolean?
+  apiResponseStatus    Boolean?
+  apiError             String?
+  apiResponseTime      Int? // milliseconds
+
+  // Final result
+  allowed       Boolean
+  blockedReason String?
+
+  // Performance metrics
+  totalResponseTime Int // milliseconds
+
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  @@map("users")
-}
-
-// Example model for access control (related to your checkAccess functionality)
-model AccessRule {
-  id        String   @id @default(cuid())
-  path      String   @unique
-  allowed   Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("access_rules")
+  @@index([timestamp])
+  @@index([clientIp])
+  @@index([path])
+  @@index([allowed])
+  @@index([requestId])
+  @@map("access_logs")
 }
 

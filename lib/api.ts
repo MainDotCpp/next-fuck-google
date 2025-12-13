@@ -1,39 +1,143 @@
+import crypto from 'node:crypto'
+
 /**
- * 过滤接口
- * 返回 true 表示允许访问，false 表示显示 404
+ * 过滤接口配置
  */
+const API_ENDPOINT = 'https://api-visitor.fangyu.io/check/2375/1saw1A0vo0yY8k7rGo'
+const FIXED_SIGN = 'ajrFpkoJc4FxjWpX7rj4y'
+
+/**
+ * CheckRequest 检查请求
+ */
+interface CheckRequest {
+  userAgent: string
+  visitUrl: string
+  clientIp: string
+  clientLanguage: string
+  referer: string
+  timestamp: string
+  sign: string
+}
+
+/**
+ * CheckRequestInput 检查请求输入（不包含 timestamp 和 sign）
+ */
+export type CheckRequestInput = Omit<CheckRequest, 'sign' | 'timestamp'>
+
+/**
+ * CheckResponse 检查响应
+ */
+interface CheckResponse {
+  code: number
+  message: string
+  success: boolean
+  data: {
+    status: boolean // 是否放行：true=放行，false=拦截
+  }
+}
+
+/**
+ * 生成签名
+ * 签名算法：将所有参数按字母顺序排序，拼接成字符串，加上 fixed_sign，然后进行 MD5 哈希
+ */
+function generateSign(params: Omit<CheckRequest, 'sign'>): string {
+  // 将参数按 key 排序并拼接
+  const sortedKeys = Object.keys(params).sort()
+  const paramString = sortedKeys
+    .map(key => `${key}=${params[key as keyof typeof params]}`)
+    .join('&')
+
+  // 加上 fixed_sign
+  const signString = `${paramString}&fixed_sign=${FIXED_SIGN}`
+
+  // 使用 Web Crypto API 进行 MD5 哈希（Node.js 环境）
+  // 注意：浏览器环境不支持 MD5，需要使用 crypto-js 或其他库
+  // 这里假设在 Node.js 环境中运行
+  return crypto.createHash('md5').update(signString).digest('hex')
+}
+
+/**
+ * API 检查结果
+ */
+export interface ApiCheckResult {
+  allowed: boolean
+  response?: CheckResponse
+  error?: string
+  responseTime: number
+}
 
 /**
  * 调用过滤接口
- * @param path 当前访问的路径
- * @returns true 允许访问，false 显示 404
+ * @param request 检查请求参数（不包含 timestamp 和 sign）
+ * @returns API 检查结果
  */
-export async function checkAccess(path: string): Promise<boolean> {
-	try {
-		// 替换为你的实际 API 地址
-		const response = await fetch("https://api.example.com/check-access", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ path }),
-			cache: "no-store", // 禁用缓存，确保每次请求都调用接口
-		});
+export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckResult> {
+  const startTime = Date.now()
 
-		if (!response.ok) {
-			// 接口错误时默认返回 false（显示 404）
-			return false;
-		}
+  try {
+    // 生成时间戳
+    const timestamp = Date.now().toString()
 
-		const data = await response.json();
-		// 根据实际接口返回格式调整
-		// 假设接口返回 { allowed: true/false } 或直接返回 true/false
-		return data.allowed ?? data ?? false;
-	} catch (error) {
-		console.error("Filter API call failed:", error);
-		// 接口调用失败时默认返回 false（显示 404）
-		return false;
-	}
+    // 构建请求参数
+    const requestParams: Omit<CheckRequest, 'sign'> = {
+      ...request,
+      timestamp,
+    }
+
+    // 生成签名
+    const sign = generateSign(requestParams)
+
+    // 构建完整请求
+    const checkRequest: CheckRequest = {
+      ...requestParams,
+      sign,
+    }
+
+    // 调用 API
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(checkRequest),
+      cache: 'no-store', // 禁用缓存，确保每次请求都调用接口
+    })
+
+    const responseTime = Date.now() - startTime
+
+    if (!response.ok) {
+      // 接口错误时默认返回 false（显示 404）
+      const errorMessage = `Filter API call failed: ${response.status} ${response.statusText}`
+      console.error(errorMessage)
+      return {
+        allowed: false,
+        error: errorMessage,
+        responseTime,
+      }
+    }
+
+    const data: CheckResponse = await response.json()
+
+    // 根据接口返回格式判断是否放行
+    const allowed = data.success && data.data?.status
+
+    return {
+      allowed,
+      response: data,
+      responseTime,
+    }
+  }
+  catch (error) {
+    const responseTime = Date.now() - startTime
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    console.error('Filter API call failed:', errorMessage)
+    // 接口调用失败时默认返回 false（显示 404）
+    return {
+      allowed: false,
+      error: errorMessage,
+      responseTime,
+    }
+  }
 }
 
 /**
@@ -43,11 +147,10 @@ export async function checkAccess(path: string): Promise<boolean> {
  * @param allowed 是否允许访问
  */
 export async function mockCheckAccess(
-	path: string,
-	delay: number = 1000,
-	allowed: boolean = true
+  path: string,
+  delay: number = 1000,
+  allowed: boolean = true,
 ): Promise<boolean> {
-	await new Promise((resolve) => setTimeout(resolve, delay));
-	return allowed;
+  await new Promise(resolve => setTimeout(resolve, delay))
+  return allowed
 }
-

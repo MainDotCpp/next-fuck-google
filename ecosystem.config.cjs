@@ -22,9 +22,11 @@ module.exports = {
       env: {
         NODE_ENV: 'development',
         PORT: 8888,
+        DATABASE_URL: 'postgresql://postgres:Haishi@1688@127.0.0.1:5432/nextfuckgoogle?schema=public',
       },
       env_production: {
         NODE_ENV: 'production',
+        DATABASE_URL: 'postgresql://postgres:Haishi@1688@127.0.0.1:5432/nextfuckgoogle?schema=public',
         PORT: 8888,
       },
       // Logging configuration
