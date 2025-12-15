@@ -9,42 +9,19 @@ export const dynamic = 'force-dynamic'
 
 /**
  * 语言白名单配置
- * 支持的语言代码（可以是完整格式如 zh-CN，也可以是基础代码如 zh）
+ * 使用完整的 Accept-Language header 字符串进行完全匹配
  */
-const ALLOWED_LANGUAGES = ['en', 'zh', 'zh-CN', 'zh-TW', 'ja', 'ko']
+const ALLOWED_LANGUAGES = ['ja', 'ja-JP', 'ko', 'ko-KR', 'ko-KR,ko;q=0.9']
 
 /**
- * 检查语言是否在白名单中
- * 解析 Accept-Language header，提取语言代码并检查是否在白名单中
+ * 检查语言是否在白名单中（完全匹配整个 Accept-Language 字符串）
  */
 function checkLanguage(acceptLanguage: string): boolean {
   if (!acceptLanguage)
     return false
 
-  // 解析 Accept-Language header
-  // 格式示例: "en-US,en;q=0.9,zh-CN;q=0.8" 或 "zh-CN,zh;q=0.9"
-  const languages = acceptLanguage
-    .split(',')
-    .map((lang) => {
-      // 移除权重信息（如 ;q=0.9）
-      const langPart = lang.split(';')[0].trim()
-      // 提取基础语言代码（如 en-US -> en, zh-CN -> zh-CN）
-      return langPart.toLowerCase()
-    })
-
-  // 检查是否有任何语言在白名单中
-  for (const lang of languages) {
-    // 完全匹配（如 zh-CN）
-    if (ALLOWED_LANGUAGES.includes(lang))
-      return true
-
-    // 基础代码匹配（如 en-US -> en）
-    const baseLang = lang.split('-')[0]
-    if (ALLOWED_LANGUAGES.includes(baseLang))
-      return true
-  }
-
-  return false
+  // 直接使用完整的 Accept-Language 字符串进行完全匹配
+  return ALLOWED_LANGUAGES.includes(acceptLanguage)
 }
 
 /**

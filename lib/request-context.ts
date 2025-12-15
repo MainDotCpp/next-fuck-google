@@ -1,10 +1,11 @@
 /**
  * 请求上下文工具
- * 使用 Cookies 在 middleware 和 Server Components 之间传递数据
- * Cookies 比 Headers 更可靠，因为它们在请求链中始终可用
+ * 使用 Headers 在 middleware 和 Server Components 之间传递数据
+ * Headers 只在服务端可见，不会暴露到客户端
+ * 
+ * 注意：Next.js 会自动过滤掉以 'x-' 开头的自定义 headers，不会发送到客户端
  */
 
-import { cookies } from 'next/headers'
 import type { NextRequest } from 'next/server'
 
 /**
@@ -23,97 +24,53 @@ export interface RequestContext {
   blockedPage: string
 }
 
-export const COOKIE_NAME = 'x-request-context'
-const COOKIE_MAX_AGE = 60 // 60 秒，足够完成请求
-
 /**
- * 在 middleware 中设置请求上下文到 cookie
- * 返回序列化后的 cookie 值，由调用者设置到 response
+ * 在 middleware 中设置请求上下文到 Headers
+ * Headers 只在服务端可见，不会发送到客户端
  */
-export function setRequestContext(request: NextRequest, context: Partial<RequestContext>): string {
-  // 合并现有上下文和新上下文
-  const existingContext = getRequestContextFromCookie(request)
-  const mergedContext: RequestContext = {
-    pathname: context.pathname || existingContext?.pathname || request.nextUrl.pathname,
-    originalPath: context.originalPath || existingContext?.originalPath || request.nextUrl.pathname,
-    host: context.host || existingContext?.host || request.headers.get('host') || 'localhost',
-    acceptLanguage: context.acceptLanguage || existingContext?.acceptLanguage || request.headers.get('accept-language') || '',
-    searchParams: context.searchParams || existingContext?.searchParams || request.nextUrl.searchParams.toString(),
-    userAgent: context.userAgent || existingContext?.userAgent || request.headers.get('user-agent') || '',
-    referer: context.referer || existingContext?.referer || request.headers.get('referer') || '',
-    clientIp: context.clientIp || existingContext?.clientIp || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || request.headers.get('x-real-ip') || 'unknown',
-    fullUrl: context.fullUrl || existingContext?.fullUrl || request.url,
-    blockedPage: context.blockedPage || existingContext?.blockedPage || '/not-found',
-  }
-
-  // 将上下文序列化为 JSON
-  return JSON.stringify(mergedContext)
-}
-
-/**
- * 从 cookie 读取请求上下文（用于 middleware）
- */
-export function getRequestContextFromCookie(request: NextRequest): RequestContext | null {
-  const cookieValue = request.cookies.get(COOKIE_NAME)?.value
-  if (!cookieValue)
-    return null
-
-  try {
-    return JSON.parse(cookieValue) as RequestContext
-  }
-  catch {
-    return null
-  }
+export function setRequestContextHeaders(requestHeaders: Headers, context: Partial<RequestContext>): void {
+  // 设置所有上下文数据到 headers
+  // 使用 'x-' 前缀确保 Next.js 不会将这些 headers 发送到客户端
+  if (context.pathname)
+    requestHeaders.set('x-pathname', context.pathname)
+  if (context.originalPath)
+    requestHeaders.set('x-original-path', context.originalPath)
+  if (context.host)
+    requestHeaders.set('x-host', context.host)
+  if (context.acceptLanguage)
+    requestHeaders.set('x-accept-language', context.acceptLanguage)
+  if (context.searchParams !== undefined)
+    requestHeaders.set('x-search-params', context.searchParams)
+  if (context.userAgent)
+    requestHeaders.set('x-user-agent', context.userAgent)
+  if (context.referer)
+    requestHeaders.set('x-referer', context.referer)
+  if (context.clientIp)
+    requestHeaders.set('x-client-ip', context.clientIp)
+  if (context.fullUrl)
+    requestHeaders.set('x-full-url', context.fullUrl)
+  if (context.blockedPage)
+    requestHeaders.set('x-blocked-page', context.blockedPage)
 }
 
 /**
  * 在 Server Components 中获取请求上下文
+ * 从 Headers 读取，这些 headers 只在服务端可见
  */
 export async function getRequestContext(): Promise<RequestContext> {
-  const cookieStore = await cookies()
-  const cookieValue = cookieStore.get(COOKIE_NAME)?.value
+  const { headers } = await import('next/headers')
+  const headersList = await headers()
 
-  if (!cookieValue) {
-    // 如果 cookie 不存在，尝试从 headers 读取（向后兼容）
-    const { headers } = await import('next/headers')
-    const headersList = await headers()
-    return {
-      pathname: headersList.get('x-pathname') || headersList.get('x-original-path') || '/',
-      originalPath: headersList.get('x-original-path') || headersList.get('x-pathname') || '/',
-      host: headersList.get('x-host') || 'localhost',
-      acceptLanguage: headersList.get('x-accept-language') || '',
-      searchParams: headersList.get('x-search-params') || '',
-      userAgent: headersList.get('x-user-agent') || '',
-      referer: headersList.get('x-referer') || '',
-      clientIp: headersList.get('x-client-ip') || 'unknown',
-      fullUrl: headersList.get('x-full-url') || '',
-      blockedPage: headersList.get('x-blocked-page') || '/not-found',
-    }
+  return {
+    pathname: headersList.get('x-pathname') || headersList.get('x-original-path') || '/',
+    originalPath: headersList.get('x-original-path') || headersList.get('x-pathname') || '/',
+    host: headersList.get('x-host') || 'localhost',
+    acceptLanguage: headersList.get('x-accept-language') || '',
+    searchParams: headersList.get('x-search-params') || '',
+    userAgent: headersList.get('x-user-agent') || '',
+    referer: headersList.get('x-referer') || '',
+    clientIp: headersList.get('x-client-ip') || 'unknown',
+    fullUrl: headersList.get('x-full-url') || '',
+    blockedPage: headersList.get('x-blocked-page') || '/not-found',
   }
-
-  try {
-    return JSON.parse(cookieValue) as RequestContext
-  }
-  catch {
-    // 如果解析失败，返回默认值
-    return {
-      pathname: '/',
-      originalPath: '/',
-      host: 'localhost',
-      acceptLanguage: '',
-      searchParams: '',
-      userAgent: '',
-      referer: '',
-      clientIp: 'unknown',
-      fullUrl: '',
-      blockedPage: '/not-found',
-    }
-  }
-}
-
-/**
- * 清除请求上下文 cookie（可选，用于清理）
- */
-export function clearRequestContext(response: Response): void {
-  response.headers.set('Set-Cookie', `${COOKIE_NAME}=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax`)
 }
