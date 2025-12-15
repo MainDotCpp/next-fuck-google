@@ -82,6 +82,9 @@
   /* 正文字体 - Noto Sans JP（现代、易读） */
   --font-body: var(--font-noto-sans-jp), "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", "MS PGothic", sans-serif;
   
+  /* 装饰性字体 - Rampart One（有趣、醒目） */
+  --font-decorative: var(--font-rampart-one), "Rampart One", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  
   /* 引言字体 - Noto Serif JP（优雅、正式） */
   --font-quote: var(--font-noto-serif-jp), "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   

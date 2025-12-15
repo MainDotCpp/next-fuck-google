@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TextShimmer } from '@/components/ui/text-shimmer'
-import { kaiseiDecol } from '@/lib/fonts'
+import { kaiseiDecol, notoSansJP, rampartOne } from '@/lib/fonts'
 import { cn } from '@/lib/utils'
 
 export default function LandingPage() {
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white ${kaiseiDecol.variable}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white ${kaiseiDecol.variable} ${notoSansJP.variable} ${rampartOne.variable}`}>
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-12">
         <div className="max-w-4xl mx-auto">
@@ -161,7 +161,7 @@ export default function LandingPage() {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight mb-6 sm:mb-8 [font-family:var(--font-kaisei-decol)]">
               最近、高市早苗の対中発言によって、
               <br className="hidden sm:block" />
-              <span className="text-blue-400">日本市場には"二つのチャンス"</span>
+              <span className="text-blue-400 [font-family:var(--font-rampart-one)]">日本市場には"二つのチャンス"</span>
               <br />
               が同時に生まれています。
             </h1>
@@ -210,7 +210,7 @@ export default function LandingPage() {
                   <p className="text-lg sm:text-xl font-bold text-red-200 text-center">
                     一部では
                     {' '}
-                    <span className="text-2xl sm:text-3xl text-red-100 font-extrabold tracking-tight [font-family:var(--font-number)]">1日で7〜12％</span>
+                    <span className="text-2xl sm:text-3xl text-red-100 font-extrabold tracking-tight [font-family:var(--font-rampart-one)]">1日で7〜12％</span>
                     {' '}
                     の下げを記録。
                   </p>
@@ -238,7 +238,7 @@ export default function LandingPage() {
                   <p className="text-lg sm:text-xl font-bold text-green-200 text-center">
                     通常の
                     {' '}
-                    <span className="text-2xl sm:text-3xl text-green-100 font-extrabold tracking-tight [font-family:var(--font-number)]">4倍以上</span>
+                    <span className="text-2xl sm:text-3xl text-green-100 font-extrabold tracking-tight [font-family:var(--font-rampart-one)]">4倍以上</span>
                     {' '}
                     の資金流入
                   </p>
@@ -247,7 +247,7 @@ export default function LandingPage() {
                   <p className="text-base sm:text-lg font-semibold text-emerald-200 text-center">
                     わずか数日で
                     {' '}
-                    <span className="text-xl sm:text-2xl text-emerald-100 font-bold [font-family:var(--font-number)]">3連続の大陽線</span>
+                    <span className="text-xl sm:text-2xl text-emerald-100 font-bold [font-family:var(--font-rampart-one)]">3連続の大陽線</span>
                     {' '}
                     をつける銘柄も。
                   </p>
