@@ -104,6 +104,7 @@ export async function saveAccessLogToDB(log: AccessLog): Promise<void> {
         languageCheckPassed: log.languageCheck.passed,
         urlParamsCheckPassed: log.urlParamsCheck.passed,
         apiCheckPassed: log.apiCheck.passed,
+        apiResponse: log.apiCheck.apiResponse ? JSON.stringify(log.apiCheck.apiResponse) : null,
         apiError: log.apiCheck.apiError || null,
         allowed: log.allowed,
         blockedReason: log.blockedReason || null,

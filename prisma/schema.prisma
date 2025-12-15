@@ -18,6 +18,7 @@ model AccessLog {
   languageCheckPassed Boolean
   urlParamsCheckPassed Boolean
   apiCheckPassed    Boolean
+  apiResponse       String? // JSON 格式的完整 API 响应
   apiError          String?
   allowed           Boolean
   blockedReason     String?

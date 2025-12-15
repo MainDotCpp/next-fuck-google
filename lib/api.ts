@@ -108,7 +108,13 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
     if (!response.ok) {
       // 接口错误时默认返回 false（显示 404）
       const errorMessage = `Filter API call failed: ${response.status} ${response.statusText}`
-      console.error(errorMessage)
+      console.error('[API Error]', JSON.stringify({
+        endpoint: API_ENDPOINT,
+        status: response.status,
+        statusText: response.statusText,
+        error: errorMessage,
+        responseTime: `${responseTime}ms`,
+      }, null, 2))
       return {
         allowed: false,
         error: errorMessage,
@@ -117,6 +123,14 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
     }
 
     const data: CheckResponse = await response.json()
+
+    // 打印第三方 API 响应
+    console.log('[API Response]', JSON.stringify({
+      endpoint: API_ENDPOINT,
+      status: response.status,
+      response: data,
+      responseTime: `${responseTime}ms`,
+    }, null, 2))
 
     // 根据接口返回格式判断是否放行
     const allowed = data.success && data.data?.status
@@ -130,7 +144,12 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
   catch (error) {
     const responseTime = Date.now() - startTime
     const errorMessage = error instanceof Error ? error.message : String(error)
-    console.error('Filter API call failed:', errorMessage)
+    console.error('[API Exception]', JSON.stringify({
+      endpoint: API_ENDPOINT,
+      error: errorMessage,
+      responseTime: `${responseTime}ms`,
+      stack: error instanceof Error ? error.stack : undefined,
+    }, null, 2))
     // 接口调用失败时默认返回 false（显示 404）
     return {
       allowed: false,

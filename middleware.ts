@@ -14,7 +14,9 @@ export function middleware(request: NextRequest) {
   const blockedPage = mappingResult?.blockedPage || accessControlConfig.blockedPage
 
   // 准备请求上下文数据
-  const host = request.headers.get('host') || request.headers.get('x-forwarded-host') || 'localhost'
+  // 获取 host 并去掉端口号
+  const rawHost = request.headers.get('host') || request.headers.get('x-forwarded-host') || 'localhost'
+  const host = rawHost.split(':')[0] // 去掉端口号，只保留主机名
   const acceptLanguage = request.headers.get('accept-language') || ''
   const searchParams = request.nextUrl.searchParams.toString()
   const userAgent = request.headers.get('user-agent') || ''
