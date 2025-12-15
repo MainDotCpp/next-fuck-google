@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { checkAccess } from '@/lib/api'
 import { createAccessLog, logAccess } from '@/lib/logger'
@@ -93,6 +92,7 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     clientIp,
     fullUrl,
     blockedPage,
+    host,
   } = context
 
   // 0. 检查是否有 d=d 参数，如果有则直接放行
@@ -113,6 +113,7 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     userAgent,
     acceptLanguage,
     referer,
+    host,
     languageCheck: {
       passed: false,
       language: acceptLanguage,

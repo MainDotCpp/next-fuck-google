@@ -23,6 +23,7 @@ export interface AccessLog {
   userAgent: string
   acceptLanguage: string
   referer: string
+  host: string
 
   // 检查结果
   languageCheck: {
@@ -98,6 +99,7 @@ export async function saveAccessLogToDB(log: AccessLog): Promise<void> {
         queryParams: log.queryParams || null,
         clientIp: log.clientIp,
         userAgent: log.userAgent || null,
+        host: log.host || null,
         languageCheckPassed: log.languageCheck.passed,
         urlParamsCheckPassed: log.urlParamsCheck.passed,
         apiCheckPassed: log.apiCheck.passed,
@@ -152,6 +154,7 @@ export function createAccessLog(initialData: Partial<AccessLog>): AccessLog {
     userAgent: '',
     acceptLanguage: '',
     referer: '',
+    host: 'localhost',
     languageCheck: {
       passed: false,
       language: '',
