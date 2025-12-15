@@ -29,7 +29,7 @@ export interface RouteAlias {
  * - { alias: '/page3', target: '/p3', blockedPage: '/custom-blocked' } - 使用自定义拦截页面
  */
 export const routeAliases: RouteAlias[] = [
-  { alias: '/', target: '/white/sites' },
+  { alias: '/', target: '/white/sites', enableCheck: false },
   { alias: '/cq', target: '/pages/page1', enableCheck: true, blockedPage: '/not-found' },
 ]
 
