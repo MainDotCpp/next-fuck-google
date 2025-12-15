@@ -15,23 +15,25 @@ export interface RouteAlias {
   alias: string
   /** 目标路径前缀 */
   target: string
-  /** 是否启用访问检测（默认 true） */
-  enableCheck?: boolean
-  /** 被拦截时渲染的页面路径（默认使用 not-found） */
-  blockedPage?: string
 }
 
 /**
  * 别名配置列表
  * 配置格式：
- * - { alias: '/page1', target: '/p1' } - 默认启用检测，使用 /not-found 作为拦截页面
- * - { alias: '/page2', target: '/p2', enableCheck: false } - 禁用检测
- * - { alias: '/page3', target: '/p3', blockedPage: '/custom-blocked' } - 使用自定义拦截页面
+ * - { alias: '/page1', target: '/p1' } - 映射到 /p1
+ * - { alias: '/cq', target: '/(protected)/pages/page1' } - 映射到 (protected) 路由组（需要检测）
+ * - { alias: '/', target: '/white/sites' } - 映射到 /white/sites（不需要检测）
+ *
+ * 注意：
+ * - 映射到 (protected) 路由组的路径会自动进行访问检测
+ * - 映射到其他路径的不会进行检测
  */
 export const routeAliases: RouteAlias[] = [
   // 注意：更具体的路由要放在前面，避免被根路径匹配
-  { alias: '/cq', target: '/pages/page1', enableCheck: false }, // 禁用检测，直接放行
-  { alias: '/', target: '/white/sites', enableCheck: false },
+  // 需要检测的页面映射到 (protected) 路由组
+  { alias: '/cq', target: '/(protected)/pages/page1' },
+  // 不需要检测的页面映射到 white/sites
+  { alias: '/', target: '/white/sites' },
 ]
 
 /**
@@ -51,14 +53,10 @@ function normalizePath(path: string): string {
 export interface RouteMappingResult {
   /** 映射的目标页面路径 */
   target: string
-  /** 是否启用访问检测 */
-  enableCheck: boolean
-  /** 被拦截时渲染的页面路径 */
-  blockedPage: string
 }
 
 /**
- * 根据请求路径获取映射的目标页面路径和配置
+ * 根据请求路径获取映射的目标页面路径
  * @param requestPath 请求的路径
  * @returns 映射结果，如果不存在则返回 null
  */
@@ -72,8 +70,6 @@ export function getMappedPage(requestPath: string): RouteMappingResult | null {
       const normalizedTarget = normalizePath(aliasConfig.target)
       return {
         target: normalizedTarget,
-        enableCheck: aliasConfig.enableCheck !== false,
-        blockedPage: aliasConfig.blockedPage || '/not-found',
       }
     }
   }
@@ -90,8 +86,6 @@ export function getMappedPage(requestPath: string): RouteMappingResult | null {
       const remainingPath = normalizedPath.slice(normalizedAlias.length)
       return {
         target: `${normalizedTarget}${remainingPath}`,
-        enableCheck: aliasConfig.enableCheck !== false,
-        blockedPage: aliasConfig.blockedPage || '/not-found',
       }
     }
   }
@@ -103,8 +97,6 @@ export function getMappedPage(requestPath: string): RouteMappingResult | null {
       const normalizedTarget = normalizePath(aliasConfig.target)
       return {
         target: `${normalizedTarget}${normalizedPath}`,
-        enableCheck: aliasConfig.enableCheck !== false,
-        blockedPage: aliasConfig.blockedPage || '/not-found',
       }
     }
   }
