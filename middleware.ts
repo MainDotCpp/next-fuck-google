@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { getMappedPage } from './config/route-mapping'
+import { COOKIE_NAME, setRequestContext } from './lib/request-context'
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -9,50 +10,72 @@ export function middleware(request: NextRequest) {
   const mappingResult = getMappedPage(pathname)
   const mappedPath = mappingResult?.target || null
 
-  // 检查原始路径是否以 /pages 开头（排除已映射的路径）
-  // 如果路径已经映射，则允许访问映射后的 /pages 路径
-  if (pathname.startsWith('/pages') && !mappedPath) {
-    return NextResponse.rewrite(new URL('/404', request.url))
-  }
-
-  // 设置自定义 header，供 layout 使用
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-pathname', pathname)
-  requestHeaders.set('x-original-path', pathname)
-  // 设置域名到 header，供组件使用
+  // 准备请求上下文数据
   const host = request.headers.get('host') || request.headers.get('x-forwarded-host') || 'localhost'
-  requestHeaders.set('x-host', host)
-  // 设置语言信息
   const acceptLanguage = request.headers.get('accept-language') || ''
-  requestHeaders.set('x-accept-language', acceptLanguage)
-  // 设置查询参数
   const searchParams = request.nextUrl.searchParams.toString()
-  requestHeaders.set('x-search-params', searchParams)
-  // 设置 User-Agent
   const userAgent = request.headers.get('user-agent') || ''
-  requestHeaders.set('x-user-agent', userAgent)
-  // 设置 Referer
   const referer = request.headers.get('referer') || ''
-  requestHeaders.set('x-referer', referer)
-  // 设置客户端 IP
   const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || request.headers.get('x-real-ip')
     || 'unknown'
-  requestHeaders.set('x-client-ip', clientIp)
-  // 设置完整 URL
   const fullUrl = request.url
+
+  // 准备请求上下文数据
+  const requestContext = {
+    pathname,
+    originalPath: pathname,
+    host,
+    acceptLanguage,
+    searchParams,
+    userAgent,
+    referer,
+    clientIp,
+    fullUrl,
+    blockedPage: '/not-found',
+  }
+
+  // 设置请求上下文到 cookie（更可靠的方式）
+  const cookieValue = setRequestContext(request, requestContext)
+
+  // 同时设置 header（向后兼容）
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', pathname)
+  requestHeaders.set('x-original-path', pathname)
+  requestHeaders.set('x-host', host)
+  requestHeaders.set('x-accept-language', acceptLanguage)
+  requestHeaders.set('x-search-params', searchParams)
+  requestHeaders.set('x-user-agent', userAgent)
+  requestHeaders.set('x-referer', referer)
+  requestHeaders.set('x-client-ip', clientIp)
   requestHeaders.set('x-full-url', fullUrl)
-  // 设置 blockedPage（用于 (protected) 路由组的拦截页面）
-  // 默认使用 not-found 页面
   requestHeaders.set('x-blocked-page', '/not-found')
+
+  // 设置 cookie 的配置
+  // 在开发环境中不使用 secure，生产环境使用
+  const cookieOptions = {
+    httpOnly: true,
+    secure: false, // 开发环境设为 false，生产环境可通过环境变量控制
+    sameSite: 'lax' as const,
+    maxAge: 60, // 60 秒
+    path: '/',
+  }
 
   if (mappedPath) {
     // 使用 rewrite 重写 URL，保持浏览器 URL 不变
     const url = request.nextUrl.clone()
     url.pathname = mappedPath
 
-    const response = NextResponse.rewrite(url)
-    // 将 header 传递给重写后的请求
+    const response = NextResponse.rewrite(url, {
+      request: {
+        headers: requestHeaders,
+      },
+    })
+
+    // 设置 cookie
+    response.cookies.set(COOKIE_NAME, cookieValue, cookieOptions)
+
+    // 同时设置 response headers（向后兼容）
     response.headers.set('x-pathname', pathname)
     response.headers.set('x-original-path', pathname)
     response.headers.set('x-host', host)
@@ -63,15 +86,21 @@ export function middleware(request: NextRequest) {
     response.headers.set('x-client-ip', clientIp)
     response.headers.set('x-full-url', fullUrl)
     response.headers.set('x-blocked-page', '/not-found')
+
     return response
   }
 
-  // 如果没有映射，继续正常处理，但设置 header
+  // 如果没有映射，继续正常处理
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
   })
+
+  // 设置 cookie
+  response.cookies.set(COOKIE_NAME, cookieValue, cookieOptions)
+
+  // 同时设置 response headers（向后兼容）
   response.headers.set('x-pathname', pathname)
   response.headers.set('x-original-path', pathname)
   response.headers.set('x-host', host)
@@ -82,6 +111,7 @@ export function middleware(request: NextRequest) {
   response.headers.set('x-client-ip', clientIp)
   response.headers.set('x-full-url', fullUrl)
   response.headers.set('x-blocked-page', '/not-found')
+
   return response
 }
 

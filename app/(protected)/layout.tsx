@@ -1,4 +1,3 @@
-import { headers } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { checkAccess } from '@/lib/api'
@@ -67,18 +66,20 @@ function checkUrlParams(searchParams: string): boolean {
 async function ProtectedAccessCheck({ children }: { children: React.ReactNode }) {
   const startTime = Date.now()
 
-  // 从 middleware 设置的 header 中获取原始路径和请求信息
-  const headersList = await headers()
-  const pathname = headersList.get('x-original-path') || headersList.get('x-pathname') || '/'
-  const acceptLanguage = headersList.get('x-accept-language') || ''
-  const searchParams = headersList.get('x-search-params') || ''
-  const userAgent = headersList.get('x-user-agent') || ''
-  const referer = headersList.get('x-referer') || ''
-  const clientIp = headersList.get('x-client-ip') || 'unknown'
-  const fullUrl = headersList.get('x-full-url') || ''
+  // 从请求上下文获取数据（优先使用 cookie，更可靠）
+  const { getRequestContext } = await import('@/lib/request-context')
+  const context = await getRequestContext()
 
-  // 获取路由配置（如果没有映射，使用默认值）
-  const blockedPage = headersList.get('x-blocked-page') || '/not-found'
+  const {
+    pathname,
+    acceptLanguage,
+    searchParams,
+    userAgent,
+    referer,
+    clientIp,
+    fullUrl,
+    blockedPage,
+  } = context
 
   // 0. 检查是否有 d=d 参数，如果有则直接放行
   if (searchParams) {

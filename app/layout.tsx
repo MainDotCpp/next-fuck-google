@@ -1,5 +1,4 @@
 import { Geist, Geist_Mono } from 'next/font/google'
-import { headers } from 'next/headers'
 import { Suspense } from 'react'
 import { createAccessLog, logAccess } from '@/lib/logger'
 import Loading from './loading'
@@ -25,15 +24,19 @@ export const dynamic = 'force-dynamic'
 async function AccessLogger({ children }: { children: React.ReactNode }) {
   const startTime = Date.now()
 
-  // 从 middleware 设置的 header 中获取请求信息
-  const headersList = await headers()
-  const pathname = headersList.get('x-original-path') || headersList.get('x-pathname') || '/'
-  const acceptLanguage = headersList.get('x-accept-language') || ''
-  const searchParams = headersList.get('x-search-params') || ''
-  const userAgent = headersList.get('x-user-agent') || ''
-  const referer = headersList.get('x-referer') || ''
-  const clientIp = headersList.get('x-client-ip') || 'unknown'
-  const fullUrl = headersList.get('x-full-url') || ''
+  // 从请求上下文获取数据（优先使用 cookie，更可靠）
+  const { getRequestContext } = await import('@/lib/request-context')
+  const context = await getRequestContext()
+
+  const {
+    pathname,
+    acceptLanguage,
+    searchParams,
+    userAgent,
+    referer,
+    clientIp,
+    fullUrl,
+  } = context
 
   // 创建访问日志（仅记录，不检测）
   const accessLog = createAccessLog({

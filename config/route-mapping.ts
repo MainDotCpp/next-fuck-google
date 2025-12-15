@@ -31,7 +31,7 @@ export interface RouteAlias {
 export const routeAliases: RouteAlias[] = [
   // 注意：更具体的路由要放在前面，避免被根路径匹配
   // 需要检测的页面映射到 (protected) 路由组
-  { alias: '/cq', target: '/(protected)/pages/page1' },
+  { alias: '/xxx', target: '/pages/page1' },
   // 不需要检测的页面映射到 white/sites
   { alias: '/', target: '/white/sites' },
 ]
