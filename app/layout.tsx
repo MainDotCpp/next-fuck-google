@@ -31,14 +31,15 @@ async function AccessLogger({ children }: { children: React.ReactNode }) {
     host,
   } = context
 
-  // 检查是否是 protected 路由（通过检查路径是否映射到 protected 路由组）
+  // 检查是否是 protected 路由
   // protected 路由的日志由 app/(protected)/layout.tsx 记录，这里跳过以避免重复
-  const { getMappedPage } = await import('@/config/route-mapping')
+  const { getMappedPage, isProtectedRoute } = await import('@/config/route-mapping')
   const mappingResult = getMappedPage(pathname)
 
-  // 如果路径映射到 protected 路由组（target 以 /JP/ 开头），不记录日志
+  // 如果路由映射的目标路径属于 protected 路由组，不记录日志
   // 因为 ProtectedLayout 会记录更详细的检测信息
-  if (mappingResult?.target?.startsWith('/JP/')) {
+  // 使用配置化的方式判断，便于后续添加新的 protected 路由前缀
+  if (mappingResult?.target && isProtectedRoute(mappingResult.target)) {
     return <>{children}</>
   }
 

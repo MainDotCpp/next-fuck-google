@@ -73,6 +73,24 @@ function normalizePath(path: string): string {
 }
 
 /**
+ * Protected 路由组的前缀配置
+ * 定义哪些路径前缀属于 protected 路由组
+ * 这些路由会经过访问检测，日志由 app/(protected)/layout.tsx 记录
+ */
+export const PROTECTED_ROUTE_PREFIXES = [
+  '/JP/',
+] as const
+
+/**
+ * 检查路径是否属于 protected 路由组
+ * @param path 要检查的路径
+ * @returns 如果是 protected 路由返回 true，否则返回 false
+ */
+export function isProtectedRoute(path: string): boolean {
+  return PROTECTED_ROUTE_PREFIXES.some(prefix => path.startsWith(prefix))
+}
+
+/**
  * 路由映射结果
  */
 export interface RouteMappingResult {
