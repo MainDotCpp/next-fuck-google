@@ -6,7 +6,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  
 }
 // Access log model for tracking all access attempts
 model AccessLog {
