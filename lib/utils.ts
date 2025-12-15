@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { headers } from "next/headers"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -10,6 +9,7 @@ export function cn(...inputs: ClassValue[]) {
  * 从请求头获取域名
  */
 export async function getDomain(): Promise<string> {
+  const { headers } = await import("next/headers")
   const headersList = await headers()
   // 优先使用 middleware 设置的 x-host，然后是标准的 host header
   const host = headersList.get('x-host') || headersList.get('host') || headersList.get('x-forwarded-host') || 'localhost'
