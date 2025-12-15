@@ -5,13 +5,15 @@ import { getMappedPage } from './config/route-mapping'
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (pathname.startsWith('/pages')) {
-    return NextResponse.rewrite(new URL('/404', request.url))
-  }
-
   // 查找映射关系
   const mappingResult = getMappedPage(pathname)
   const mappedPath = mappingResult?.target || null
+
+  // 检查原始路径是否以 /pages 开头（排除已映射的路径）
+  // 如果路径已经映射，则允许访问映射后的 /pages 路径
+  if (pathname.startsWith('/pages') && !mappedPath) {
+    return NextResponse.rewrite(new URL('/404', request.url))
+  }
 
   // 设置自定义 header，供 layout 使用
   const requestHeaders = new Headers(request.headers)

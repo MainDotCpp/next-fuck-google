@@ -29,8 +29,9 @@ export interface RouteAlias {
  * - { alias: '/page3', target: '/p3', blockedPage: '/custom-blocked' } - 使用自定义拦截页面
  */
 export const routeAliases: RouteAlias[] = [
+  // 注意：更具体的路由要放在前面，避免被根路径匹配
+  { alias: '/cq', target: '/pages/page1', enableCheck: false }, // 禁用检测，直接放行
   { alias: '/', target: '/white/sites', enableCheck: false },
-  { alias: '/cq', target: '/pages/page1', enableCheck: true, blockedPage: '/not-found' },
 ]
 
 /**
@@ -64,36 +65,46 @@ export interface RouteMappingResult {
 export function getMappedPage(requestPath: string): RouteMappingResult | null {
   const normalizedPath = normalizePath(requestPath)
 
-  // 遍历所有别名配置，找到第一个匹配的
+  // 先进行精确匹配（优先级最高）
   for (const aliasConfig of routeAliases) {
     const normalizedAlias = normalizePath(aliasConfig.alias)
-    let targetPath: string | null = null
-
-    // 精确匹配
     if (normalizedPath === normalizedAlias) {
       const normalizedTarget = normalizePath(aliasConfig.target)
-      targetPath = normalizedTarget
-    }
-    // 前缀匹配
-    // 特殊处理根路径：当别名是 '/' 时，所有路径都匹配
-    else if (normalizedAlias === '/') {
-      const normalizedTarget = normalizePath(aliasConfig.target)
-      // 直接拼接目标路径和请求路径（请求路径已经以 / 开头）
-      targetPath = `${normalizedTarget}${normalizedPath}`
-    }
-    // 其他前缀匹配
-    else if (normalizedPath.startsWith(`${normalizedAlias}/`)) {
-      const normalizedTarget = normalizePath(aliasConfig.target)
-      // 替换前缀并保留剩余路径
-      const remainingPath = normalizedPath.slice(normalizedAlias.length)
-      targetPath = `${normalizedTarget}${remainingPath}`
-    }
-
-    if (targetPath) {
       return {
-        target: targetPath,
-        enableCheck: aliasConfig.enableCheck !== false, // 默认 true
-        blockedPage: aliasConfig.blockedPage || '/not-found', // 默认 not-found
+        target: normalizedTarget,
+        enableCheck: aliasConfig.enableCheck !== false,
+        blockedPage: aliasConfig.blockedPage || '/not-found',
+      }
+    }
+  }
+
+  // 然后进行前缀匹配（排除根路径，因为根路径会匹配所有）
+  for (const aliasConfig of routeAliases) {
+    const normalizedAlias = normalizePath(aliasConfig.alias)
+    // 跳过根路径，根路径在后面处理
+    if (normalizedAlias === '/')
+      continue
+
+    if (normalizedPath.startsWith(`${normalizedAlias}/`)) {
+      const normalizedTarget = normalizePath(aliasConfig.target)
+      const remainingPath = normalizedPath.slice(normalizedAlias.length)
+      return {
+        target: `${normalizedTarget}${remainingPath}`,
+        enableCheck: aliasConfig.enableCheck !== false,
+        blockedPage: aliasConfig.blockedPage || '/not-found',
+      }
+    }
+  }
+
+  // 最后处理根路径匹配（优先级最低）
+  for (const aliasConfig of routeAliases) {
+    const normalizedAlias = normalizePath(aliasConfig.alias)
+    if (normalizedAlias === '/') {
+      const normalizedTarget = normalizePath(aliasConfig.target)
+      return {
+        target: `${normalizedTarget}${normalizedPath}`,
+        enableCheck: aliasConfig.enableCheck !== false,
+        blockedPage: aliasConfig.blockedPage || '/not-found',
       }
     }
   }
