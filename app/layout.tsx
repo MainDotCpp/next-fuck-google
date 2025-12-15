@@ -27,7 +27,6 @@ async function AccessLogger({ children }: { children: React.ReactNode }) {
     referer,
     clientIp,
     fullUrl,
-    host,
   } = context
 
   // 创建访问日志（仅记录，不检测）
@@ -39,7 +38,6 @@ async function AccessLogger({ children }: { children: React.ReactNode }) {
     userAgent,
     acceptLanguage,
     referer,
-    host,
     languageCheck: {
       passed: true, // RootLayout 不检测，默认通过
       language: acceptLanguage,

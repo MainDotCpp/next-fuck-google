@@ -23,7 +23,6 @@ export interface AccessLog {
   userAgent: string
   acceptLanguage: string
   referer: string
-  host: string
 
   // 检查结果
   languageCheck: {
@@ -93,20 +92,33 @@ export async function saveAccessLogToDB(log: AccessLog): Promise<void> {
   try {
     await db.accessLog.create({
       data: {
+        id: log.requestId, // 使用 requestId 作为 id
         requestId: log.requestId,
         timestamp: new Date(log.timestamp),
+        method: log.method || null,
         path: log.path,
+        fullUrl: log.fullUrl,
         queryParams: log.queryParams || null,
         clientIp: log.clientIp,
         userAgent: log.userAgent || null,
-        host: log.host || null,
+        acceptLanguage: log.acceptLanguage || null,
+        referer: log.referer || null,
         languageCheckPassed: log.languageCheck.passed,
+        language: log.languageCheck.language || null,
+        allowedLanguages: log.languageCheck.allowedLanguages || [],
         urlParamsCheckPassed: log.urlParamsCheck.passed,
+        urlParams: log.urlParamsCheck.params || null,
+        urlParamsPattern: log.urlParamsCheck.pattern || null,
         apiCheckPassed: log.apiCheck.passed,
+        apiResponseCode: log.apiCheck.apiResponse?.code || null,
+        apiResponseMessage: log.apiCheck.apiResponse?.message || null,
+        apiResponseSuccess: log.apiCheck.apiResponse?.success || null,
+        apiResponseStatus: log.apiCheck.apiResponse?.status || null,
         apiError: log.apiCheck.apiError || null,
+        apiResponseTime: log.apiCheck.responseTime || null,
         allowed: log.allowed,
         blockedReason: log.blockedReason || null,
-        responseTime: log.totalResponseTime,
+        totalResponseTime: log.totalResponseTime,
       },
     })
   }
@@ -154,7 +166,6 @@ export function createAccessLog(initialData: Partial<AccessLog>): AccessLog {
     userAgent: '',
     acceptLanguage: '',
     referer: '',
-    host: 'localhost',
     languageCheck: {
       passed: false,
       language: '',
