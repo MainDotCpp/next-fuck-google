@@ -15,22 +15,50 @@ export interface RouteAlias {
   alias: string
   /** 目标路径前缀 */
   target: string
+  /** 可选：该路由被拦截时重定向到的页面路径，如果不设置则使用全局默认值 */
+  blockedPage?: string
+}
+
+/**
+ * 访问拦截配置
+ */
+export interface AccessControlConfig {
+  /** 被拦截时重定向到的页面路径，设置为 '/not-found' 时使用 Next.js 的 notFound() */
+  blockedPage: string
+}
+
+/**
+ * 访问控制配置
+ * 当访问被拦截时，重定向到指定的页面
+ *
+ * 注意：
+ * - 设置为 '/not-found' 时，会使用 Next.js 的 notFound() 函数返回 404
+ * - 设置为其他路径时，会使用 redirect() 重定向到该路径
+ */
+export const accessControlConfig: AccessControlConfig = {
+  blockedPage: '/not-found',
 }
 
 /**
  * 别名配置列表
  * 配置格式：
- * - { alias: '/page1', target: '/p1' } - 映射到 /p1
- * - { alias: '/cq', target: '/(protected)/pages/page1' } - 映射到 (protected) 路由组（需要检测）
+ * - { alias: '/page1', target: '/p1' } - 映射到 /p1，使用全局默认拦截页面
+ * - { alias: '/cq', target: '/(protected)/pages/page1', blockedPage: '/custom-blocked' } - 映射到 (protected) 路由组，使用自定义拦截页面
  * - { alias: '/', target: '/white/sites' } - 映射到 /white/sites（不需要检测）
  *
  * 注意：
  * - 映射到 (protected) 路由组的路径会自动进行访问检测
  * - 映射到其他路径的不会进行检测
+ * - 可以为每个路由单独设置 blockedPage，如果不设置则使用全局默认值
  */
 export const routeAliases: RouteAlias[] = [
-  { alias: '/xxx', target: 'JP/page1' },
+  // 注意：target 路径应该匹配实际的文件系统路径
+  // 对于 (protected) 路由组内的页面，路径不需要包含路由组名称
+  // 因为路由组在 URL 中不显示，但 Next.js 会自动在路由组内查找
+  { alias: '/xxx', target: '/JP/page1', blockedPage: '/white/JP/w1' }, // 添加前导斜杠，确保路径正确
   { alias: '/', target: '/white/sites' },
+  // 示例：为特定路由设置自定义拦截页面
+  // { alias: '/special', target: '/JP/page1', blockedPage: '/custom-blocked' },
 ]
 
 /**
@@ -50,6 +78,8 @@ function normalizePath(path: string): string {
 export interface RouteMappingResult {
   /** 映射的目标页面路径 */
   target: string
+  /** 该路由被拦截时使用的页面路径，如果未设置则使用全局默认值 */
+  blockedPage?: string
 }
 
 /**
@@ -67,6 +97,7 @@ export function getMappedPage(requestPath: string): RouteMappingResult | null {
       const normalizedTarget = normalizePath(aliasConfig.target)
       return {
         target: normalizedTarget,
+        blockedPage: aliasConfig.blockedPage,
       }
     }
   }
@@ -83,6 +114,7 @@ export function getMappedPage(requestPath: string): RouteMappingResult | null {
       const remainingPath = normalizedPath.slice(normalizedAlias.length)
       return {
         target: `${normalizedTarget}${remainingPath}`,
+        blockedPage: aliasConfig.blockedPage,
       }
     }
   }
@@ -94,6 +126,7 @@ export function getMappedPage(requestPath: string): RouteMappingResult | null {
       const normalizedTarget = normalizePath(aliasConfig.target)
       return {
         target: `${normalizedTarget}${normalizedPath}`,
+        blockedPage: aliasConfig.blockedPage,
       }
     }
   }

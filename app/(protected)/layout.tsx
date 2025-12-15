@@ -1,8 +1,14 @@
-import { notFound, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { checkAccess } from '@/lib/api'
 import { createAccessLog, logAccess } from '@/lib/logger'
 import Loading from '../loading'
+// 预导入所有可能的拦截页面组件
+// 这样可以避免动态导入的路径解析问题
+// 从 app/(protected)/layout.tsx 到 app/white/JP/w1/page.tsx 的相对路径
+import WhiteJPW1Page from '../white/JP/w1/page'
+
+import NotFound from './not-found'
 
 // 设置为动态渲染，以便调用接口
 export const dynamic = 'force-dynamic'
@@ -34,6 +40,37 @@ function checkUrlParams(searchParams: string): boolean {
   // 正则表达式：匹配 (wbraid|gclid)=.{20}
   const pattern = /(?:wbraid|gclid)=.{20}/
   return pattern.test(searchParams)
+}
+
+/**
+ * 拦截页面映射表
+ * 将路由配置的路径映射到实际的页面组件
+ * 添加新的拦截页面时，需要在这里导入并添加映射
+ */
+const blockedPageMap: Record<string, React.ComponentType> = {
+  '/not-found': NotFound,
+  '/white/JP/w1': WhiteJPW1Page,
+  // 添加更多拦截页面映射：
+  // '/custom-blocked': CustomBlockedPage,
+}
+
+/**
+ * 根据路由配置动态渲染拦截页面
+ * @param blockedPage 拦截页面路径，例如 '/not-found' 或 '/white/JP/w1'
+ * @returns React 组件
+ */
+function renderBlockedPage(blockedPage: string): React.ReactElement {
+  // 从映射表中获取对应的页面组件
+  const BlockedPageComponent = blockedPageMap[blockedPage]
+
+  // 如果找到了对应的组件，渲染它
+  if (BlockedPageComponent) {
+    return <BlockedPageComponent />
+  }
+
+  // 如果没有找到，回退到 NotFound 组件
+  console.warn(`Blocked page not found in map: ${blockedPage}, falling back to NotFound`)
+  return <NotFound />
 }
 
 /**
@@ -96,14 +133,8 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     accessLog.blockedReason = 'LANGUAGE_NOT_ALLOWED'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
-    // 使用配置的拦截页面
-    if (blockedPage === '/not-found') {
-      notFound()
-    }
-    else {
-      redirect(blockedPage)
-    }
-    return <></>
+    // 根据路由配置动态渲染拦截页面
+    return renderBlockedPage(blockedPage)
   }
 
   // 2. 检查URL参数是否满足正则表达式
@@ -114,14 +145,8 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     accessLog.blockedReason = 'URL_PARAMS_INVALID'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
-    // 使用配置的拦截页面
-    if (blockedPage === '/not-found') {
-      notFound()
-    }
-    else {
-      redirect(blockedPage)
-    }
-    return <></>
+    // 根据路由配置动态渲染拦截页面
+    return renderBlockedPage(blockedPage)
   }
 
   // 3. 调用过滤接口
@@ -154,14 +179,8 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     accessLog.blockedReason = apiResult.error || 'API_CHECK_FAILED'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
-    // 使用配置的拦截页面
-    if (blockedPage === '/not-found') {
-      notFound()
-    }
-    else {
-      redirect(blockedPage)
-    }
-    return <></>
+    // 根据路由配置动态渲染拦截页面
+    return renderBlockedPage(blockedPage)
   }
 
   // 记录成功的访问

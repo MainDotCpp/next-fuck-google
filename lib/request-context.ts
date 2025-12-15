@@ -60,6 +60,9 @@ export function setRequestContextHeaders(requestHeaders: Headers, context: Parti
 export async function getRequestContext(): Promise<RequestContext> {
   const { headers } = await import('next/headers')
   const headersList = await headers()
+  
+  // 从配置文件获取默认值（如果 header 中没有）
+  const { accessControlConfig } = await import('@/config/route-mapping')
 
   return {
     pathname: headersList.get('x-pathname') || headersList.get('x-original-path') || '/',
@@ -71,6 +74,6 @@ export async function getRequestContext(): Promise<RequestContext> {
     referer: headersList.get('x-referer') || '',
     clientIp: headersList.get('x-client-ip') || 'unknown',
     fullUrl: headersList.get('x-full-url') || '',
-    blockedPage: headersList.get('x-blocked-page') || '/not-found',
+    blockedPage: headersList.get('x-blocked-page') || accessControlConfig.blockedPage,
   }
 }

@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { getMappedPage } from './config/route-mapping'
+import { accessControlConfig, getMappedPage } from './config/route-mapping'
 import { setRequestContextHeaders } from './lib/request-context'
 
 export function middleware(request: NextRequest) {
@@ -9,6 +9,9 @@ export function middleware(request: NextRequest) {
   // 查找映射关系
   const mappingResult = getMappedPage(pathname)
   const mappedPath = mappingResult?.target || null
+
+  // 确定使用的拦截页面：优先使用路由特定的，否则使用全局默认值
+  const blockedPage = mappingResult?.blockedPage || accessControlConfig.blockedPage
 
   // 准备请求上下文数据
   const host = request.headers.get('host') || request.headers.get('x-forwarded-host') || 'localhost'
@@ -32,7 +35,7 @@ export function middleware(request: NextRequest) {
     referer,
     clientIp,
     fullUrl,
-    blockedPage: '/not-found',
+    blockedPage,
   }
 
   // 设置请求上下文到 Headers（只在服务端可见，不会发送到客户端）
