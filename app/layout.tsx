@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google'
 import { headers } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { checkAccess } from '@/lib/api'
 import { createAccessLog, logAccess } from '@/lib/logger'
@@ -65,6 +65,11 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
   const clientIp = headersList.get('x-client-ip') || 'unknown'
   const fullUrl = headersList.get('x-full-url') || ''
 
+  // 获取路由配置（如果没有映射，使用默认值）
+  const enableCheckHeader = headersList.get('x-enable-check')
+  const enableCheck = enableCheckHeader === null ? true : enableCheckHeader !== 'false' // 默认 true
+  const blockedPage = headersList.get('x-blocked-page') || '/not-found'
+
   // 0. 检查是否有 d=d 参数，如果有则直接放行
   // 使用 URLSearchParams 精确匹配参数
   if (searchParams) {
@@ -73,6 +78,11 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
       // 直接放行，不记录日志
       return <>{children}</>
     }
+  }
+
+  // 如果路由配置中禁用了检测，直接放行
+  if (!enableCheck) {
+    return <>{children}</>
   }
 
   // 创建访问日志
@@ -104,7 +114,13 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
     accessLog.blockedReason = 'LANGUAGE_NOT_ALLOWED'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
-    notFound()
+    // 使用配置的拦截页面
+    if (blockedPage === '/not-found') {
+      notFound()
+    }
+    else {
+      redirect(blockedPage)
+    }
     return <></>
   }
 
@@ -116,7 +132,13 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
     accessLog.blockedReason = 'URL_PARAMS_INVALID'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
-    notFound()
+    // 使用配置的拦截页面
+    if (blockedPage === '/not-found') {
+      notFound()
+    }
+    else {
+      redirect(blockedPage)
+    }
     return <></>
   }
 
@@ -144,13 +166,19 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
     responseTime: apiResult.responseTime,
   }
 
-  // 如果接口返回 false，直接显示 404
+  // 如果接口返回 false，使用配置的拦截页面
   if (!apiResult.allowed) {
     accessLog.allowed = false
     accessLog.blockedReason = apiResult.error || 'API_CHECK_FAILED'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
-    notFound()
+    // 使用配置的拦截页面
+    if (blockedPage === '/not-found') {
+      notFound()
+    }
+    else {
+      redirect(blockedPage)
+    }
     return <></>
   }
 

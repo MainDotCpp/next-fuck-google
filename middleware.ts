@@ -10,7 +10,8 @@ export function middleware(request: NextRequest) {
   }
 
   // 查找映射关系
-  const mappedPath = getMappedPage(pathname)
+  const mappingResult = getMappedPage(pathname)
+  const mappedPath = mappingResult?.target || null
 
   // 设置自定义 header，供 layout 使用
   const requestHeaders = new Headers(request.headers)
@@ -39,6 +40,16 @@ export function middleware(request: NextRequest) {
   // 设置完整 URL
   const fullUrl = request.url
   requestHeaders.set('x-full-url', fullUrl)
+  // 设置路由配置信息（如果没有映射，使用默认值）
+  if (mappingResult) {
+    requestHeaders.set('x-enable-check', mappingResult.enableCheck.toString())
+    requestHeaders.set('x-blocked-page', mappingResult.blockedPage)
+  }
+  else {
+    // 默认配置：启用检测，使用 not-found 页面
+    requestHeaders.set('x-enable-check', 'true')
+    requestHeaders.set('x-blocked-page', '/not-found')
+  }
 
   if (mappedPath) {
     // 使用 rewrite 重写 URL，保持浏览器 URL 不变
@@ -56,6 +67,14 @@ export function middleware(request: NextRequest) {
     response.headers.set('x-referer', referer)
     response.headers.set('x-client-ip', clientIp)
     response.headers.set('x-full-url', fullUrl)
+    if (mappingResult) {
+      response.headers.set('x-enable-check', mappingResult.enableCheck.toString())
+      response.headers.set('x-blocked-page', mappingResult.blockedPage)
+    }
+    else {
+      response.headers.set('x-enable-check', 'true')
+      response.headers.set('x-blocked-page', '/not-found')
+    }
     return response
   }
 
@@ -74,6 +93,14 @@ export function middleware(request: NextRequest) {
   response.headers.set('x-referer', referer)
   response.headers.set('x-client-ip', clientIp)
   response.headers.set('x-full-url', fullUrl)
+  if (mappingResult) {
+    response.headers.set('x-enable-check', mappingResult.enableCheck.toString())
+    response.headers.set('x-blocked-page', mappingResult.blockedPage)
+  }
+  else {
+    response.headers.set('x-enable-check', 'true')
+    response.headers.set('x-blocked-page', '/not-found')
+  }
   return response
 }
 
