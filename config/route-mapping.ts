@@ -23,7 +23,7 @@ export interface RouteAlias {
  */
 export const routeAliases: RouteAlias[] = [
   { alias: '/', target: '/white/sites' },
-  { alias: '/a', target: '/pages/page1' },
+  { alias: '/cq', target: '/pages/page1' },
 ]
 
 /**

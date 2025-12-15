@@ -65,6 +65,16 @@ async function CheckAccess({ children }: { children: React.ReactNode }) {
   const clientIp = headersList.get('x-client-ip') || 'unknown'
   const fullUrl = headersList.get('x-full-url') || ''
 
+  // 0. 检查是否有 d=d 参数，如果有则直接放行
+  // 使用 URLSearchParams 精确匹配参数
+  if (searchParams) {
+    const params = new URLSearchParams(searchParams)
+    if (params.get('d') === 'd') {
+      // 直接放行，不记录日志
+      return <>{children}</>
+    }
+  }
+
   // 创建访问日志
   const accessLog = createAccessLog({
     path: pathname,
