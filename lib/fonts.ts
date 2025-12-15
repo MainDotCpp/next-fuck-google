@@ -1,13 +1,12 @@
 import { Kaisei_Decol } from 'next/font/google'
 
 /**
- * 风格化日文字体：Kaisei Decol（海青デコル）
+ * 主标题字体：Kaisei Decol（海青デコル）
+ * 用途：主标题、专家姓名、重要声明、按钮
+ * 特点：优雅的衬线字体，传统日式风格，具有权威感
  *
- * 特点：
- * - 优雅的衬线字体
- * - 传统日式风格，具有权威感
- * - 适合标题、重要声明、正式内容
- * - 独特的装饰性风格，非常有辨识度
+ * 按照 Next.js 官方文档配置：
+ * https://nextjs.org/docs/app/building-your-application/optimizing/fonts
  */
 export const kaiseiDecol = Kaisei_Decol({
   variable: '--font-kaisei-decol',

@@ -1,7 +1,7 @@
 'use client'
 import { ArrowRight, CheckCircle2, MessageCircle, PlayCircle, Sparkles, TrendingDown, TrendingUp, Users, Video, Youtube, Zap } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TextShimmer } from '@/components/ui/text-shimmer'
 import { kaiseiDecol } from '@/lib/fonts'
@@ -20,7 +20,7 @@ export default function LandingPage() {
                 {/* Avatar */}
                 <div className="shrink-0">
                   <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 p-1 ring-4 ring-indigo-500/30">
-                    <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center text-3xl sm:text-4xl font-bold text-indigo-300">
+                    <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center text-3xl sm:text-4xl font-bold text-indigo-300 [font-family:var(--font-kaisei-decol)]">
                       三
                     </div>
                   </div>
@@ -28,20 +28,20 @@ export default function LandingPage() {
                 {/* Profile Info */}
                 <div className="flex-1 text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                    <h2 className="text-xl sm:text-2xl font-bold text-white">三桥贵明</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white [font-family:var(--font-kaisei-decol)]">三橋貴明</h2>
                     <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                   </div>
-                  <p className="text-sm sm:text-base text-gray-300 mb-3">
+                  <p className="text-sm sm:text-base text-gray-300 mb-3 [font-family:var(--font-body)]">
                     経済評論家・投資戦略家
                   </p>
                   <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs sm:text-sm">
                     <div className="flex items-center gap-1.5 bg-blue-500/20 px-3 py-1.5 rounded-full border border-blue-500/30">
                       <Users className="w-4 h-4 text-blue-400" />
-                      <span className="text-blue-200">15年以上の経験</span>
+                      <span className="text-blue-200 [font-family:var(--font-subheading)]">15年以上の経験</span>
                     </div>
                     <div className="flex items-center gap-1.5 bg-green-500/20 px-3 py-1.5 rounded-full border border-green-500/30">
                       <CheckCircle2 className="w-4 h-4 text-green-400" />
-                      <span className="text-green-200">実績多数</span>
+                      <span className="text-green-200 [font-family:var(--font-subheading)]">実績多数</span>
                     </div>
                   </div>
                 </div>
@@ -78,29 +78,29 @@ export default function LandingPage() {
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-red-500/20 rounded-full flex items-center justify-center ring-2 ring-red-500/30">
                   <Youtube className="w-6 h-6 sm:w-7 sm:h-7 text-red-400" />
                 </div>
-                <CardTitle className="text-xl sm:text-2xl text-red-300 [font-family:var(--font-kaisei-decol)]">
+                <CardTitle className="text-xl sm:text-2xl text-red-300 [font-family:var(--font-subheading)]">
                   YouTubeチャンネル
                 </CardTitle>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed [font-family:var(--font-body)]">
                 毎週最新の市場分析と投資戦略を配信中
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div className="bg-red-500/20 rounded-lg p-4 border border-red-500/30 backdrop-blur-sm text-center">
                   <Users className="w-6 h-6 sm:w-8 sm:h-8 text-red-400 mx-auto mb-2" />
-                  <div className="text-2xl sm:text-3xl font-bold text-red-200 mb-1 tracking-tight [font-family:var(--font-kaisei-decol)]">12.5万</div>
-                  <div className="text-xs sm:text-sm text-red-300">登録者数</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-red-200 mb-1 tracking-tight [font-family:var(--font-number)]">12.5万</div>
+                  <div className="text-xs sm:text-sm text-red-300 [font-family:var(--font-body)]">登録者数</div>
                 </div>
                 <div className="bg-red-500/20 rounded-lg p-4 border border-red-500/30 backdrop-blur-sm text-center">
                   <Video className="w-6 h-6 sm:w-8 sm:h-8 text-red-400 mx-auto mb-2" />
-                  <div className="text-2xl sm:text-3xl font-bold text-red-200 mb-1 tracking-tight [font-family:var(--font-kaisei-decol)]">500+</div>
-                  <div className="text-xs sm:text-sm text-red-300">動画数</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-red-200 mb-1 tracking-tight [font-family:var(--font-number)]">500+</div>
+                  <div className="text-xs sm:text-sm text-red-300 [font-family:var(--font-body)]">動画数</div>
                 </div>
                 <div className="bg-red-500/20 rounded-lg p-4 border border-red-500/30 backdrop-blur-sm text-center col-span-2 sm:col-span-1">
                   <PlayCircle className="w-6 h-6 sm:w-8 sm:h-8 text-red-400 mx-auto mb-2" />
-                  <div className="text-2xl sm:text-3xl font-bold text-red-200 mb-1 tracking-tight [font-family:var(--font-kaisei-decol)]">週3回</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-red-200 mb-1 tracking-tight [font-family:var(--font-number)]">週3回</div>
                   <div className="text-xs sm:text-sm text-red-300">更新頻度</div>
                 </div>
               </div>
@@ -197,20 +197,20 @@ export default function LandingPage() {
                   <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-red-500/20 rounded-full flex items-center justify-center ring-2 ring-red-500/30">
                     <TrendingDown className="w-6 h-6 sm:w-7 sm:h-7 text-red-400" />
                   </div>
-                  <CardTitle className="text-xl sm:text-2xl text-red-300 [font-family:var(--font-kaisei-decol)]">
+                  <CardTitle className="text-xl sm:text-2xl text-red-300 [font-family:var(--font-subheading)]">
                     一つは暴落
                   </CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-300 leading-relaxed [font-family:var(--font-body)]">
                   観光・小売・百貨店などは急落し、
                 </p>
                 <div className="bg-red-500/20 rounded-lg p-4 border border-red-500/30 backdrop-blur-sm">
                   <p className="text-lg sm:text-xl font-bold text-red-200 text-center">
                     一部では
                     {' '}
-                    <span className="text-2xl sm:text-3xl text-red-100 font-extrabold tracking-tight [font-family:var(--font-kaisei-decol)]">1日で7〜12％</span>
+                    <span className="text-2xl sm:text-3xl text-red-100 font-extrabold tracking-tight [font-family:var(--font-number)]">1日で7〜12％</span>
                     {' '}
                     の下げを記録。
                   </p>
@@ -225,20 +225,20 @@ export default function LandingPage() {
                   <div className="shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-green-500/20 rounded-full flex items-center justify-center ring-2 ring-green-500/30">
                     <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 text-green-400" />
                   </div>
-                  <CardTitle className="text-xl sm:text-2xl text-green-300 [font-family:var(--font-kaisei-decol)]">
+                  <CardTitle className="text-xl sm:text-2xl text-green-300 [font-family:var(--font-subheading)]">
                     しかしその裏で
                   </CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-300 leading-relaxed [font-family:var(--font-body)]">
                   防衛・半導体・国産化・円安メリット分野は
                 </p>
                 <div className="bg-green-500/20 rounded-lg p-4 border border-green-500/30 backdrop-blur-sm">
                   <p className="text-lg sm:text-xl font-bold text-green-200 text-center">
                     通常の
                     {' '}
-                    <span className="text-2xl sm:text-3xl text-green-100 font-extrabold tracking-tight [font-family:var(--font-kaisei-decol)]">4倍以上</span>
+                    <span className="text-2xl sm:text-3xl text-green-100 font-extrabold tracking-tight [font-family:var(--font-number)]">4倍以上</span>
                     {' '}
                     の資金流入
                   </p>
@@ -247,7 +247,7 @@ export default function LandingPage() {
                   <p className="text-base sm:text-lg font-semibold text-emerald-200 text-center">
                     わずか数日で
                     {' '}
-                    <span className="text-xl sm:text-2xl text-emerald-100 font-bold [font-family:var(--font-kaisei-decol)]">3連続の大陽線</span>
+                    <span className="text-xl sm:text-2xl text-emerald-100 font-bold [font-family:var(--font-number)]">3連続の大陽線</span>
                     {' '}
                     をつける銘柄も。
                   </p>
@@ -285,7 +285,7 @@ export default function LandingPage() {
           <Card className="bg-gradient-to-r from-blue-900/40 to-indigo-800/30 backdrop-blur-sm border-blue-500/30 shadow-xl mb-8 sm:mb-12">
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
-                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
+                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed [font-family:var(--font-quote)]">
                   これはただの混乱ではなく、
                 </p>
                 <TextShimmer
@@ -324,14 +324,14 @@ export default function LandingPage() {
           <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
             <Card className="bg-gradient-to-r from-purple-900/40 to-pink-800/30 backdrop-blur-sm border-purple-500/30 shadow-lg">
               <CardContent className="pt-6">
-                <p className="text-lg sm:text-xl font-semibold text-purple-200 text-center [font-family:var(--font-kaisei-decol)]">
+                <p className="text-lg sm:text-xl font-semibold text-purple-200 text-center [font-family:var(--font-quote)]">
                   暴落はチャンスになり、
                 </p>
               </CardContent>
             </Card>
             <Card className="bg-gradient-to-r from-orange-900/40 to-amber-800/30 backdrop-blur-sm border-orange-500/30 shadow-lg">
               <CardContent className="pt-6">
-                <p className="text-lg sm:text-xl font-semibold text-orange-200 text-center [font-family:var(--font-kaisei-decol)]">
+                <p className="text-lg sm:text-xl font-semibold text-orange-200 text-center [font-family:var(--font-quote)]">
                   暴騰はトレンドの始まりになる。
                 </p>
               </CardContent>
@@ -342,7 +342,7 @@ export default function LandingPage() {
           <Card className="bg-gradient-to-r from-cyan-900/40 to-teal-800/30 backdrop-blur-sm border-cyan-500/30 shadow-xl mb-8 sm:mb-12">
             <CardContent className="pt-6">
               <div className="text-center space-y-3">
-                <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-300 leading-relaxed [font-family:var(--font-body)]">
                   重要なのは相場の荒れではなく、
                 </p>
                 <p className="text-xl sm:text-2xl font-bold text-cyan-300 [font-family:var(--font-kaisei-decol)]">
@@ -377,7 +377,7 @@ export default function LandingPage() {
           {/* Social Proof - Testimonials */}
           <Card className="bg-gradient-to-r from-violet-900/40 to-fuchsia-800/30 backdrop-blur-sm border-violet-500/30 shadow-xl mb-8 sm:mb-12">
             <CardHeader>
-              <CardTitle className="text-xl sm:text-2xl text-violet-300 text-center [font-family:var(--font-kaisei-decol)]">
+              <CardTitle className="text-xl sm:text-2xl text-violet-300 text-center [font-family:var(--font-subheading)]">
                 多くの投資家が信頼しています
               </CardTitle>
             </CardHeader>
@@ -389,10 +389,10 @@ export default function LandingPage() {
                       T
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm sm:text-base text-violet-200 mb-2 italic">
+                      <p className="text-sm sm:text-base text-violet-200 mb-2 italic [font-family:var(--font-quote)]">
                         "三桥さんの分析は的確で、実際に利益を出すことができました。特に市場の転換点を見極める力が素晴らしいです。"
                       </p>
-                      <p className="text-xs sm:text-sm text-violet-300">- 田中様（投資歴5年）</p>
+                      <p className="text-xs sm:text-sm text-violet-300 [font-family:var(--font-body)]">- 田中様（投資歴5年）</p>
                     </div>
                   </div>
                 </div>
@@ -402,10 +402,10 @@ export default function LandingPage() {
                       S
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm sm:text-base text-violet-200 mb-2 italic">
+                      <p className="text-sm sm:text-base text-violet-200 mb-2 italic [font-family:var(--font-quote)]">
                         "LINEで送られてくる情報が本当に役立ちます。初心者でもわかりやすく、実践的なアドバイスがもらえます。"
                       </p>
-                      <p className="text-xs sm:text-sm text-violet-300">- 佐藤様（投資歴2年）</p>
+                      <p className="text-xs sm:text-sm text-violet-300 [font-family:var(--font-body)]">- 佐藤様（投資歴2年）</p>
                     </div>
                   </div>
                 </div>
@@ -415,17 +415,17 @@ export default function LandingPage() {
                       Y
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm sm:text-base text-violet-200 mb-2 italic">
+                      <p className="text-sm sm:text-base text-violet-200 mb-2 italic [font-family:var(--font-quote)]">
                         "YouTubeの動画も見ていますが、LINEで個別に相談できるのが最大のメリット。迅速な対応に感謝しています。"
                       </p>
-                      <p className="text-xs sm:text-sm text-violet-300">- 山田様（投資歴8年）</p>
+                      <p className="text-xs sm:text-sm text-violet-300 [font-family:var(--font-body)]">- 山田様（投資歴8年）</p>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-violet-500/30">
                 <div className="text-center space-y-4">
-                  <p className="text-base sm:text-lg text-violet-200 font-semibold">
+                  <p className="text-base sm:text-lg text-violet-200 font-semibold [font-family:var(--font-body)]">
                     あなたも成功の仲間入りをしませんか？
                   </p>
                   <Button
@@ -461,7 +461,7 @@ export default function LandingPage() {
               <div className="text-center space-y-6">
                 <div className="flex items-center justify-center gap-2">
                   <Sparkles className="w-5 h-5 text-yellow-400" />
-                  <p className="text-lg sm:text-xl font-semibold text-gray-200">
+                  <p className="text-lg sm:text-xl font-semibold text-gray-200 [font-family:var(--font-body)]">
                     もしあなたが知りたいなら：
                   </p>
                   <Sparkles className="w-5 h-5 text-yellow-400" />
@@ -517,7 +517,7 @@ export default function LandingPage() {
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </div>
-                <p className="text-sm sm:text-base text-gray-400 mt-4">
+                <p className="text-sm sm:text-base text-gray-400 mt-4 [font-family:var(--font-body)]">
                   対策と狙うべきポイントをお送りします。
                 </p>
               </div>

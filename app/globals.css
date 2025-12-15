@@ -76,16 +76,29 @@
 }
 
 @theme inline {
-  /* 风格化日文字体 - Kaisei Decol */
-  --font-stylized: var(--font-kaisei-decol), "Kaisei Decol", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  /* 主标题字体 - Kaisei Decol（权威、正式） */
+  --font-heading: var(--font-kaisei-decol), "Kaisei Decol", "Hiragino Mincho ProN", "Yu Mincho", serif;
   
-  /* 使用系统默认字体 */
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", "MS PGothic", sans-serif;
-  --font-serif: "Hiragino Mincho ProN", "Yu Mincho", "Times New Roman", serif;
-  --font-display: var(--font-kosugi-maru), "Kosugi Maru", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-rounded: var(--font-kosugi-maru), "Kosugi Maru", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* 正文字体 - Noto Sans JP（现代、易读） */
+  --font-body: var(--font-noto-sans-jp), "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", "MS PGothic", sans-serif;
+  
+  /* 引言字体 - Noto Serif JP（优雅、正式） */
+  --font-quote: var(--font-noto-serif-jp), "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  
+  /* 数字字体 - M PLUS Rounded（友好、突出） */
+  --font-number: var(--font-m-plus-rounded), "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* 小标题字体 - Kosugi Maru（圆润、友好） */
+  --font-subheading: var(--font-kosugi-maru), "Kosugi Maru", "Hiragino Kaku Gothic ProN", "Hiragino Sans", system-ui, sans-serif;
+  
+  /* 兼容性变量 */
+  --font-stylized: var(--font-kaisei-decol), "Kaisei Decol", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Meiryo", "MS PGothic", sans-serif;
+  --font-serif: var(--font-noto-serif-jp), "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-display: var(--font-kosugi-maru), "Kosugi Maru", "Hiragino Kaku Gothic ProN", "Hiragino Sans", system-ui, sans-serif;
+  --font-rounded: var(--font-m-plus-rounded), "M PLUS Rounded 1c", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading-en: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-impact: var(--font-kosugi-maru), "Kosugi Maru", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-impact: var(--font-kosugi-maru), "Kosugi Maru", "Hiragino Kaku Gothic ProN", "Hiragino Sans", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
