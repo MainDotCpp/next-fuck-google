@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,40 +5,41 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-// Access log model for tracking all access attempts
+
 model AccessLog {
-  id        BigInt   @id @default(autoincrement())
-  requestId String   @unique @default(uuid())
-  timestamp DateTime @default(now())
-
-  // Request information
-  path        String
-  queryParams String?
-
-  // Client information
-  clientIp  String
-  userAgent String?
-  host      String?
-
-  // Check results (simplified)
-  languageCheckPassed Boolean
+  id                   String   @id
+  requestId            String   @unique @default(uuid())
+  timestamp            DateTime @default(now())
+  method               String?
+  path                 String
+  fullUrl              String
+  queryParams          String?
+  clientIp             String
+  userAgent            String?
+  acceptLanguage       String?
+  referer              String?
+  languageCheckPassed  Boolean
+  language             String?
+  allowedLanguages     String[]
   urlParamsCheckPassed Boolean
-  apiCheckPassed Boolean
-  apiError String? // Only store error if failed
-
-  // Final result
-  allowed       Boolean
-  blockedReason String?
-
-  // Performance metrics
-  responseTime Int // milliseconds
+  urlParams            String?
+  urlParamsPattern     String?
+  apiCheckPassed       Boolean
+  apiResponseCode      Int?
+  apiResponseMessage   String?
+  apiResponseSuccess   Boolean?
+  apiResponseStatus    Boolean?
+  apiError             String?
+  apiResponseTime      Int?
+  allowed              Boolean
+  blockedReason        String?
+  totalResponseTime    Int
+  createdAt            DateTime @default(now())
 
   @@index([timestamp])
   @@index([clientIp])
   @@index([path])
   @@index([allowed])
   @@index([requestId])
-  @@index([host])
   @@map("access_logs")
 }
-
