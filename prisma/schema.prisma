@@ -9,47 +9,30 @@ datasource db {
 }
 // Access log model for tracking all access attempts
 model AccessLog {
-  id        String   @id @default(cuid())
-  requestId String   @unique
+  id        BigInt   @id @default(autoincrement())
+  requestId String   @unique @default(uuid())
   timestamp DateTime @default(now())
 
   // Request information
-  method      String?
   path        String
-  fullUrl     String
   queryParams String?
 
   // Client information
-  clientIp       String
-  userAgent      String?
-  acceptLanguage String?
-  referer        String?
+  clientIp  String
+  userAgent String?
 
-  // Check results
+  // Check results (simplified)
   languageCheckPassed Boolean
-  language           String?
-  allowedLanguages   String[] // JSON array stored as text
-
   urlParamsCheckPassed Boolean
-  urlParams            String?
-  urlParamsPattern     String?
-
   apiCheckPassed Boolean
-  apiResponseCode     Int?
-  apiResponseMessage   String?
-  apiResponseSuccess   Boolean?
-  apiResponseStatus    Boolean?
-  apiError             String?
-  apiResponseTime      Int? // milliseconds
+  apiError String? // Only store error if failed
 
   // Final result
   allowed       Boolean
   blockedReason String?
 
   // Performance metrics
-  totalResponseTime Int // milliseconds
-
-  createdAt DateTime @default(now())
+  responseTime Int // milliseconds
 
   @@index([timestamp])
   @@index([clientIp])
