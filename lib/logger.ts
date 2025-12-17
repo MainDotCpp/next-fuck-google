@@ -98,6 +98,7 @@ export async function saveAccessLogToDB(log: AccessLog): Promise<void> {
         path: log.path,
         queryParams: log.queryParams || null,
         clientIp: log.clientIp,
+        userAgent: log.userAgent || null,
         host: log.host || null,
         referer: log.referer || null,
         language: log.languageCheck.language || null,

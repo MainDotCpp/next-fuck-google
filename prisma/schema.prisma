@@ -12,6 +12,7 @@ model AccessLog {
   path              String
   queryParams       String?
   clientIp          String
+  userAgent         String? // 完整的 User-Agent 字符串
   host              String?
   referer           String?
   language          String?
