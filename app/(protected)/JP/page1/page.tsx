@@ -60,7 +60,7 @@ export default function LandingPage() {
                   )}
                   onClick={(e) => {
                     e.preventDefault()
-                    window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                    window.open('https://federenne.com/next01', '_blank')
                   }}
                 >
                   <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -119,7 +119,7 @@ export default function LandingPage() {
                   )}
                   onClick={(e) => {
                     e.preventDefault()
-                    window.open('https://youtube.com/@your-channel', '_blank')
+                    window.open('https://federenne.com/next01', '_blank')
                   }}
                 >
                   <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -139,7 +139,7 @@ export default function LandingPage() {
                   )}
                   onClick={(e) => {
                     e.preventDefault()
-                    window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                    window.open('https://federenne.com/next01', '_blank')
                   }}
                 >
                   <svg
@@ -179,7 +179,7 @@ export default function LandingPage() {
               )}
               onClick={(e) => {
                 e.preventDefault()
-                window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                window.open('https://federenne.com/next01', '_blank')
               }}
             >
               <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -272,7 +272,7 @@ export default function LandingPage() {
               )}
               onClick={(e) => {
                 e.preventDefault()
-                window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                window.open('https://federenne.com/next01', '_blank')
               }}
             >
               <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -309,7 +309,7 @@ export default function LandingPage() {
                   )}
                   onClick={(e) => {
                     e.preventDefault()
-                    window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                    window.open('https://federenne.com/next01', '_blank')
                   }}
                 >
                   <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -363,7 +363,7 @@ export default function LandingPage() {
                   )}
                   onClick={(e) => {
                     e.preventDefault()
-                    window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                    window.open('https://federenne.com/next01', '_blank')
                   }}
                 >
                   <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -442,7 +442,7 @@ export default function LandingPage() {
                     )}
                     onClick={(e) => {
                       e.preventDefault()
-                      window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                      window.open('https://federenne.com/next01', '_blank')
                     }}
                   >
                     <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -481,7 +481,7 @@ export default function LandingPage() {
                     )}
                     onClick={(e) => {
                       e.preventDefault()
-                      window.open('https://line.me/R/ti/p/@your-line-id', '_blank')
+                      window.open('https://federenne.com/next01', '_blank')
                     }}
                   >
                     <svg
