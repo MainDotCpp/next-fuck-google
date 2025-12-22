@@ -90,7 +90,7 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
     // 构建完整请求
     const checkRequest: CheckRequest = {
       ...requestParams,
-      sign,
+      sign: FIXED_SIGN,
     }
 
     // 调用 API
