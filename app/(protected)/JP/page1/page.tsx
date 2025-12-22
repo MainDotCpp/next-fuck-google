@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TextShimmer } from '@/components/ui/text-shimmer'
 import { kaiseiDecol, notoSansJP, rampartOne } from '@/lib/fonts'
-import { cn } from '@/lib/utils'
+import { cn, handleButtonClick } from '@/lib/utils'
 
 export default function LandingPage() {
   return (
@@ -58,10 +58,7 @@ export default function LandingPage() {
                     'transition-all duration-200',
                     '[font-family:var(--font-kaisei-decol)]',
                   )}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.open('https://federenne.com/next01', '_blank')
-                  }}
+                  onClick={handleButtonClick()}
                 >
                   <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                   今すぐ無料相談する
@@ -117,10 +114,7 @@ export default function LandingPage() {
                     'transition-all duration-200',
                     '[font-family:var(--font-kaisei-decol)]',
                   )}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.open('https://federenne.com/next01', '_blank')
-                  }}
+                  onClick={handleButtonClick()}
                 >
                   <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
                   チャンネルを見る
@@ -137,10 +131,7 @@ export default function LandingPage() {
                     'transition-all duration-200',
                     '[font-family:var(--font-kaisei-decol)]',
                   )}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.open('https://federenne.com/next01', '_blank')
-                  }}
+                  onClick={handleButtonClick()}
                 >
                   <svg
                     className="w-5 h-5 sm:w-6 sm:h-6"
@@ -177,10 +168,7 @@ export default function LandingPage() {
                 'w-full sm:w-auto',
                 '[font-family:var(--font-kaisei-decol)]',
               )}
-              onClick={(e) => {
-                e.preventDefault()
-                window.open('https://federenne.com/next01', '_blank')
-              }}
+              onClick={handleButtonClick()}
             >
               <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
               今すぐチャンスを掴む
@@ -270,10 +258,7 @@ export default function LandingPage() {
                 'w-full sm:w-auto',
                 '[font-family:var(--font-kaisei-decol)]',
               )}
-              onClick={(e) => {
-                e.preventDefault()
-                window.open('https://federenne.com/next01', '_blank')
-              }}
+              onClick={handleButtonClick()}
             >
               <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
               詳細な分析レポートを受け取る
@@ -307,10 +292,7 @@ export default function LandingPage() {
                     'transition-all duration-200',
                     '[font-family:var(--font-kaisei-decol)]',
                   )}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.open('https://federenne.com/next01', '_blank')
-                  }}
+                  onClick={handleButtonClick()}
                 >
                   <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                   資金の流れを詳しく知る
@@ -361,10 +343,7 @@ export default function LandingPage() {
                     'transition-all duration-200',
                     '[font-family:var(--font-kaisei-decol)]',
                   )}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    window.open('https://federenne.com/next01', '_blank')
-                  }}
+                  onClick={handleButtonClick()}
                 >
                   <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
                   投資戦略を学ぶ
@@ -440,10 +419,7 @@ export default function LandingPage() {
                       'w-full sm:w-auto',
                       '[font-family:var(--font-kaisei-decol)]',
                     )}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.open('https://federenne.com/next01', '_blank')
-                    }}
+                    onClick={handleButtonClick()}
                   >
                     <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                     今すぐ無料で始める
@@ -479,10 +455,7 @@ export default function LandingPage() {
                       'w-full sm:w-auto',
                       '[font-family:var(--font-kaisei-decol)]',
                     )}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.open('https://federenne.com/next01', '_blank')
-                    }}
+                    onClick={handleButtonClick()}
                   >
                     <svg
                       className="w-6 h-6 sm:w-7 sm:h-7"
@@ -507,10 +480,7 @@ export default function LandingPage() {
                       'w-full sm:w-auto',
                       '[font-family:var(--font-kaisei-decol)]',
                     )}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      window.open('https://youtube.com/@your-channel', '_blank')
-                    }}
+                    onClick={handleButtonClick()}
                   >
                     <Youtube className="w-5 h-5 sm:w-6 sm:h-6" />
                     YouTubeで学ぶ
