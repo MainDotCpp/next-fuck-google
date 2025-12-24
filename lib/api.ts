@@ -37,26 +37,6 @@ interface CheckResponse {
 }
 
 /**
- * 生成签名
- * 签名算法：将所有参数按字母顺序排序，拼接成字符串，加上 fixed_sign，然后进行 MD5 哈希
- */
-function generateSign(params: Omit<CheckRequest, 'sign'>): string {
-  // 将参数按 key 排序并拼接
-  const sortedKeys = Object.keys(params).sort()
-  const paramString = sortedKeys
-    .map(key => `${key}=${params[key as keyof typeof params]}`)
-    .join('&')
-
-  // 加上 fixed_sign
-  const signString = `${paramString}&fixed_sign=${FIXED_SIGN}`
-
-  // 使用 Web Crypto API 进行 MD5 哈希（Node.js 环境）
-  // 注意：浏览器环境不支持 MD5，需要使用 crypto-js 或其他库
-  // 这里假设在 Node.js 环境中运行
-  return crypto.createHash('md5').update(signString).digest('hex')
-}
-
-/**
  * API 检查结果
  */
 export interface ApiCheckResult {
@@ -76,7 +56,7 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
 
   try {
     // 生成时间戳
-    const timestamp = Date.now().toString()
+    const timestamp = Math.floor(Date.now() / 1000).toString()
 
     // 构建请求参数
     const requestParams: CheckRequest = {
