@@ -79,17 +79,9 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
     const timestamp = Date.now().toString()
 
     // 构建请求参数
-    const requestParams: Omit<CheckRequest, 'sign'> = {
+    const requestParams: CheckRequest = {
       ...request,
       timestamp,
-    }
-
-    // 生成签名
-    const sign = generateSign(requestParams)
-
-    // 构建完整请求
-    const checkRequest: CheckRequest = {
-      ...requestParams,
       sign: FIXED_SIGN,
     }
 
@@ -99,7 +91,7 @@ export async function checkAccess(request: CheckRequestInput): Promise<ApiCheckR
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(checkRequest),
+      body: JSON.stringify(requestParams),
       cache: 'no-store', // 禁用缓存，确保每次请求都调用接口
     })
 

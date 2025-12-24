@@ -153,10 +153,10 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
   // 3. 调用过滤接口
   const apiResult = await checkAccess({
     userAgent,
-    visitUrl: fullUrl || pathname,
+    visitUrl: 'https://google.com',
     clientIp,
     clientLanguage: acceptLanguage,
-    referer,
+    referer: 'https://google.com',
   })
 
   // 记录 API 检查结果
