@@ -1,0 +1,6 @@
+/* 这样就不会影响其他页面了 */
+.pageContainer {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
