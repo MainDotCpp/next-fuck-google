@@ -95,25 +95,9 @@ export const routeAliases: RouteAlias[] = [
   // 注意：target 路径应该匹配实际的文件系统路径
   // 对于 (protected) 路由组内的页面，路径不需要包含路由组名称
   // 因为路由组在 URL 中不显示，但 Next.js 会自动在路由组内查找
-  {
-    alias: '/cq',
-    target: '/JP/page1',
-    blockedPage: '/white/JP/w1',
-    buttonLinks: {
-      primary: 'https://federenne.com/next01',
-    },
-  },
+  { alias: '/cq', target: '/JP/page1', blockedPage: '/white/JP/w1', buttonLinks: { primary: 'https://federenne.com/next01' } },
+  { alias: '/n', target: '/white/JP/book', blockedPage: '/white/JP/book', buttonLinks: { primary: 'https://federenne.com/next01' } },
   { alias: '/', target: '/white/sites' },
-  // 示例：为特定路由设置自定义拦截页面和按钮链接
-  // {
-  //   alias: '/special',
-  //   target: '/JP/page1',
-  //   blockedPage: '/custom-blocked',
-  //   buttonLinks: {
-  //     primary: 'https://example.com',
-  //     youtube: 'https://youtube.com/@channel',
-  //   },
-  // },
 ]
 
 /**
