@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TextShimmer } from '@/components/ui/text-shimmer'
 import { kaiseiDecol, notoSansJP, rampartOne } from '@/lib/fonts'
 import { cn, handleButtonClick } from '@/lib/utils'
-import avatarImage from './堀江貴文_avatar.png'
+import avatarImage from './测试器_avatar.png'
 
 export default function LandingPage() {
   return (
@@ -25,7 +25,7 @@ export default function LandingPage() {
                     <div className="w-full h-full rounded-full overflow-hidden bg-slate-800">
                       <Image
                         src={avatarImage}
-                        alt="堀江貴文"
+                        alt="テスタ"
                         width={112}
                         height={112}
                         className="w-full h-full object-cover"
@@ -36,11 +36,11 @@ export default function LandingPage() {
                 {/* Profile Info */}
                 <div className="flex-1 text-center sm:text-left">
                   <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                    <h2 className="text-xl sm:text-2xl font-bold text-white [font-family:var(--font-kaisei-decol)]">堀江貴文</h2>
+                    <h2 className="text-xl sm:text-2xl font-bold text-white [font-family:var(--font-kaisei-decol)]">テスタ</h2>
                     <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                   </div>
                   <p className="text-sm sm:text-base text-gray-300 mb-3 [font-family:var(--font-body)]">
-                    起業家・投資家
+                    テスト専門家・品質保証エキスパート
                   </p>
                   <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs sm:text-sm">
                     <div className="flex items-center gap-1.5 bg-blue-500/20 px-3 py-1.5 rounded-full border border-blue-500/30">
@@ -377,7 +377,7 @@ export default function LandingPage() {
                     </div>
                     <div className="flex-1">
                       <p className="text-sm sm:text-base text-violet-200 mb-2 italic [font-family:var(--font-quote)]">
-                        "堀江さんの分析は的確で、実際に利益を出すことができました。特に市場の転換点を見極める力が素晴らしいです。"
+                        "テスタさんの分析は的確で、実際に利益を出すことができました。特に市場の転換点を見極める力が素晴らしいです。"
                       </p>
                       <p className="text-xs sm:text-sm text-violet-300 [font-family:var(--font-body)]">- 田中様（投資歴5年）</p>
                     </div>
