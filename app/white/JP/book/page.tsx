@@ -27,6 +27,9 @@ export default function BookPage() {
             <div className={styles.operatorBanner}>
               <strong>【重要】本ページについて</strong>
               本ページはアフィリエイト（紹介）プログラムに参加している独立した運営者が運営する紹介ページです。Amazon.co.jp の公式ページではありません。書籍の購入・決済・配送・返品等はすべて Amazon.co.jp で行われます。本ページの運営者は書籍の出版・販売・配送を行っておらず、投資アドバイスや金融サービスも提供しておりません。
+              <br />
+              <strong>【免責事項】</strong>
+              本ページで紹介する書籍は教育・学習目的の資料であり、投資の推奨や金融商品の販売を目的とするものではありません。投資に関する決定は、お客様ご自身の責任において行っていただきますようお願いいたします。
             </div>
             <div className={styles.affiliateNote}>※ 広告（アフィリエイト）リンクを含みます。価格・在庫はAmazonで最新情報をご確認ください。</div>
             <div className={styles.badgeRow}>
