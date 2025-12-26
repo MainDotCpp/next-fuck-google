@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
+import { DNS_BLACKLIST } from '@/config/route-mapping'
 import { checkAccess } from '@/lib/api'
+import { reverseDnsLookup } from '@/lib/dns'
 import { createAccessLog, logAccess } from '@/lib/logger'
 import Loading from '../loading'
 // 预导入所有可能的拦截页面组件
@@ -39,6 +41,34 @@ function checkUrlParams(searchParams: string): boolean {
   // 正则表达式：匹配 (wbraid|gclid)=.{20}
   const pattern = /(?:wbraid|gclid)=.{20}/
   return pattern.test(searchParams)
+}
+
+/**
+ * 检查DNS反查结果是否在黑名单中
+ * @param hostnames DNS反查得到的域名列表
+ * @param blacklist 黑名单关键词列表
+ * @returns 如果任何域名包含黑名单关键词则返回false（拦截），否则返回true（放行）
+ */
+function checkDnsBlacklist(hostnames: string[], blacklist: string[]): boolean {
+  // 如果黑名单为空，则放行
+  if (blacklist.length === 0)
+    return true
+
+  // 如果DNS反查失败（没有域名），则放行（可能是DNS服务器问题）
+  if (hostnames.length === 0)
+    return true
+
+  // 检查每个域名是否包含黑名单中的任何关键词
+  for (const hostname of hostnames) {
+    const lowerHostname = hostname.toLowerCase()
+    for (const keyword of blacklist) {
+      if (lowerHostname.includes(keyword)) {
+        return false // 匹配到黑名单，拦截
+      }
+    }
+  }
+
+  return true // 没有匹配到黑名单，放行
 }
 
 /**
@@ -124,6 +154,11 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
       params: searchParams,
       pattern: '(?:wbraid|gclid)=.{20}',
     },
+    dnsCheck: {
+      passed: true,
+      hostnames: [],
+      blacklist: DNS_BLACKLIST,
+    },
   })
 
   // 1. 检查语言是否在白名单中
@@ -150,7 +185,23 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     return renderBlockedPage(blockedPage)
   }
 
-  // 3. 调用过滤接口
+  // 3. DNS反查检测
+  const dnsResult = await reverseDnsLookup(clientIp)
+  const dnsAllowed = checkDnsBlacklist(dnsResult.hostnames, DNS_BLACKLIST)
+  accessLog.dnsCheck.passed = dnsAllowed
+  accessLog.dnsCheck.hostnames = dnsResult.hostnames
+  accessLog.dnsCheck.responseTime = dnsResult.responseTime
+  accessLog.dnsCheck.error = dnsResult.error
+  if (!dnsAllowed) {
+    accessLog.allowed = false
+    accessLog.blockedReason = 'DNS_BLACKLIST_MATCHED'
+    accessLog.totalResponseTime = Date.now() - startTime
+    await logAccess(accessLog)
+    // 根据路由配置动态渲染拦截页面
+    return renderBlockedPage(blockedPage)
+  }
+
+  // 4. 调用过滤接口
   const apiResult = await checkAccess({
     userAgent,
     visitUrl: 'https://google.com',

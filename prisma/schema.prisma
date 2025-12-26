@@ -18,6 +18,9 @@ model AccessLog {
   language          String?
   languageCheckPassed Boolean
   urlParamsCheckPassed Boolean
+  dnsCheckPassed    Boolean
+  dnsHostnames      String? // JSON 格式的DNS反查域名列表
+  dnsError          String?
   apiCheckPassed    Boolean
   apiResponse       String? // JSON 格式的完整 API 响应
   apiError          String?

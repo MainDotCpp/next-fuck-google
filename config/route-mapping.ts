@@ -80,6 +80,33 @@ export const GLOBAL_CONVERSION_LABELS: string[] = (() => {
 })()
 
 /**
+ * DNS反查结果黑名单配置
+ * 如果DNS反查得到的域名包含这些关键词，则拦截访问
+ *
+ * 配置方式：
+ * 1. 通过环境变量 DNS_BLACKLIST 配置（多个关键词用逗号分隔）
+ *    例如：DNS_BLACKLIST=googlebot.com, bing.com, yahoo.com
+ *
+ * 2. 在代码中直接配置（修改下面的数组）
+ *    例如：return ['googlebot.com', 'crawl.yahoo.net']
+ *
+ * 注意：
+ * - 匹配是部分匹配（包含），不区分大小写
+ * - 例如：'google' 会匹配 'googlebot.com' 和 'google.com'
+ */
+export const DNS_BLACKLIST: string[] = (() => {
+  // 优先从环境变量获取（支持逗号分隔的多个关键词）
+  // eslint-disable-next-line node/prefer-global/process
+  const envBlacklist = typeof process !== 'undefined' && process.env?.DNS_BLACKLIST
+  if (envBlacklist) {
+    return envBlacklist.split(',').map(keyword => keyword.trim().toLowerCase()).filter(Boolean)
+  }
+  // 如果没有环境变量，可以在代码中手动添加黑名单关键词
+  // 例如：return ['googlebot.com', 'crawl.yahoo.net', 'bingbot.com']
+  return []
+})()
+
+/**
  * 别名配置列表
  * 配置格式：
  * - { alias: '/page1', target: '/p1' } - 映射到 /p1，使用全局默认拦截页面

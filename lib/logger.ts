@@ -36,6 +36,13 @@ export interface AccessLog {
     params: string
     pattern: string
   }
+  dnsCheck: {
+    passed: boolean
+    hostnames: string[]
+    blacklist: string[]
+    responseTime?: number
+    error?: string
+  }
   apiCheck: {
     passed: boolean
     apiResponse?: {
@@ -75,6 +82,7 @@ function formatLog(log: AccessLog): string {
     allowed,
     languageCheck,
     urlParamsCheck,
+    dnsCheck,
     apiCheck,
     totalResponseTime,
     blockedReason,
@@ -83,7 +91,7 @@ function formatLog(log: AccessLog): string {
   const status = allowed ? 'ALLOWED' : 'BLOCKED'
   const reason = blockedReason ? ` [${blockedReason}]` : ''
 
-  return `[${timestamp}] [${requestId}] ${status}${reason} | ${path} | IP: ${clientIp} | Lang: ${languageCheck.passed ? '✓' : '✗'} | Params: ${urlParamsCheck.passed ? '✓' : '✗'} | API: ${apiCheck.passed ? '✓' : '✗'} | ${totalResponseTime}ms`
+  return `[${timestamp}] [${requestId}] ${status}${reason} | ${path} | IP: ${clientIp} | Lang: ${languageCheck.passed ? '✓' : '✗'} | Params: ${urlParamsCheck.passed ? '✓' : '✗'} | DNS: ${dnsCheck.passed ? '✓' : '✗'} | API: ${apiCheck.passed ? '✓' : '✗'} | ${totalResponseTime}ms`
 }
 
 /**
@@ -104,6 +112,9 @@ export async function saveAccessLogToDB(log: AccessLog): Promise<void> {
         language: log.languageCheck.language || null,
         languageCheckPassed: log.languageCheck.passed,
         urlParamsCheckPassed: log.urlParamsCheck.passed,
+        dnsCheckPassed: log.dnsCheck.passed,
+        dnsHostnames: log.dnsCheck.hostnames.length > 0 ? JSON.stringify(log.dnsCheck.hostnames) : null,
+        dnsError: log.dnsCheck.error || null,
         apiCheckPassed: log.apiCheck.passed,
         apiResponse: log.apiCheck.apiResponse ? JSON.stringify(log.apiCheck.apiResponse) : null,
         apiError: log.apiCheck.apiError || null,
@@ -167,6 +178,11 @@ export function createAccessLog(initialData: Partial<AccessLog>): AccessLog {
       passed: false,
       params: '',
       pattern: '',
+    },
+    dnsCheck: {
+      passed: true,
+      hostnames: [],
+      blacklist: [],
     },
     apiCheck: {
       passed: false,
