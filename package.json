@@ -20,9 +20,7 @@
     "pm2:logs": "pm2 logs next-fuck-google",
     "pm2:monit": "pm2 monit",
     "deploy": "bash scripts/deploy.sh",
-    "reload": "bash scripts/reload.sh",
-    "test:dns": "node scripts/test-dns.js",
-    "test:dns:ip": "node scripts/test-dns.js"
+    "reload": "bash scripts/reload.sh"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",
