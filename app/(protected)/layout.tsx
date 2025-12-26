@@ -3,12 +3,13 @@ import { DNS_BLACKLIST } from '@/config/route-mapping'
 import { checkAccess } from '@/lib/api'
 import { reverseDnsLookup } from '@/lib/dns'
 import { createAccessLog, logAccess } from '@/lib/logger'
+
 import Loading from '../loading'
+import WhiteJPBookPage from '../white/JP/book/page'
 // 预导入所有可能的拦截页面组件
 // 这样可以避免动态导入的路径解析问题
 // 从 app/(protected)/layout.tsx 到 app/white/JP/w1/page.tsx 的相对路径
 import WhiteJPW1Page from '../white/JP/w1/page'
-
 import NotFound from './not-found'
 
 // 设置为动态渲染，以便调用接口
@@ -79,8 +80,7 @@ function checkDnsBlacklist(hostnames: string[], blacklist: string[]): boolean {
 const blockedPageMap: Record<string, React.ComponentType> = {
   '/not-found': NotFound,
   '/white/JP/w1': WhiteJPW1Page,
-  // 添加更多拦截页面映射：
-  // '/custom-blocked': CustomBlockedPage,
+  '/white/JP/book': WhiteJPBookPage,
 }
 
 /**
@@ -161,7 +161,23 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     },
   })
 
-  // 1. 检查语言是否在白名单中
+  // 1. DNS反查检测（第一步检测）
+  const dnsResult = await reverseDnsLookup(clientIp)
+  const dnsAllowed = checkDnsBlacklist(dnsResult.hostnames, DNS_BLACKLIST)
+  accessLog.dnsCheck.passed = dnsAllowed
+  accessLog.dnsCheck.hostnames = dnsResult.hostnames
+  accessLog.dnsCheck.responseTime = dnsResult.responseTime
+  accessLog.dnsCheck.error = dnsResult.error
+  if (!dnsAllowed) {
+    accessLog.allowed = false
+    accessLog.blockedReason = 'DNS_BLACKLIST_MATCHED'
+    accessLog.totalResponseTime = Date.now() - startTime
+    await logAccess(accessLog)
+    // 根据路由配置动态渲染拦截页面
+    return renderBlockedPage(blockedPage)
+  }
+
+  // 2. 检查语言是否在白名单中
   const languageAllowed = checkLanguage(acceptLanguage)
   accessLog.languageCheck.passed = languageAllowed
   if (!languageAllowed) {
@@ -173,28 +189,12 @@ async function ProtectedAccessCheck({ children }: { children: React.ReactNode })
     return renderBlockedPage(blockedPage)
   }
 
-  // 2. 检查URL参数是否满足正则表达式
+  // 3. 检查URL参数是否满足正则表达式
   const urlParamsValid = checkUrlParams(searchParams)
   accessLog.urlParamsCheck.passed = urlParamsValid
   if (!urlParamsValid) {
     accessLog.allowed = false
     accessLog.blockedReason = 'URL_PARAMS_INVALID'
-    accessLog.totalResponseTime = Date.now() - startTime
-    await logAccess(accessLog)
-    // 根据路由配置动态渲染拦截页面
-    return renderBlockedPage(blockedPage)
-  }
-
-  // 3. DNS反查检测
-  const dnsResult = await reverseDnsLookup(clientIp)
-  const dnsAllowed = checkDnsBlacklist(dnsResult.hostnames, DNS_BLACKLIST)
-  accessLog.dnsCheck.passed = dnsAllowed
-  accessLog.dnsCheck.hostnames = dnsResult.hostnames
-  accessLog.dnsCheck.responseTime = dnsResult.responseTime
-  accessLog.dnsCheck.error = dnsResult.error
-  if (!dnsAllowed) {
-    accessLog.allowed = false
-    accessLog.blockedReason = 'DNS_BLACKLIST_MATCHED'
     accessLog.totalResponseTime = Date.now() - startTime
     await logAccess(accessLog)
     // 根据路由配置动态渲染拦截页面
