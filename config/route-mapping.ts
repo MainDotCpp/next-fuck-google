@@ -81,18 +81,31 @@ export const GLOBAL_CONVERSION_LABELS: string[] = (() => {
 
 /**
  * DNS反查结果黑名单配置
- * 如果DNS反查得到的域名包含这些关键词，则拦截访问
+ * 如果DNS反查得到的域名匹配这些正则表达式模式，则拦截访问
  *
  * 配置方式：
- * 1. 通过环境变量 DNS_BLACKLIST 配置（多个关键词用逗号分隔）
- *    例如：DNS_BLACKLIST=googlebot.com, bing.com, yahoo.com
+ * 1. 通过环境变量 DNS_BLACKLIST 配置（多个正则表达式用逗号分隔）
+ *    例如：DNS_BLACKLIST=.*\\.googlebot\\.com, .*\\.bing\\.com, crawl\\.yahoo\\..*
  *
  * 2. 在代码中直接配置（修改下面的数组）
- *    例如：return ['googlebot.com', 'crawl.yahoo.net']
+ *    例如：return ['.*\\.googlebot\\.com', 'crawl\\.yahoo\\..*', '.*bot.*']
  *
- * 注意：
- * - 匹配是部分匹配（包含），不区分大小写
- * - 例如：'google' 会匹配 'googlebot.com' 和 'google.com'
+ * 正则表达式支持：
+ * - 使用标准的JavaScript正则表达式语法
+ * - 匹配时不区分大小写（自动添加 'i' 标志）
+ * - 如果正则表达式无效，会记录错误但不会拦截（避免配置错误导致所有请求被拦截）
+ *
+ * 常用正则表达式示例：
+ * - '.*\\.googlebot\\.com' 匹配所有 googlebot.com 的子域名（如 crawl-66-249-66-1.googlebot.com）
+ * - 'google\\..*' 匹配所有以 google. 开头的域名（如 google.com, google.net）
+ * - '.*bot.*' 匹配包含 bot 的域名（如 googlebot.com, bingbot.com）
+ * - '^dns\\.google$' 精确匹配 dns.google
+ * - '.*\\.(google|bing|yahoo)\\..*' 匹配包含 google、bing 或 yahoo 的域名
+ *
+ * 注意事项：
+ * - 在正则表达式中，点号 (.) 需要转义为 \\. 才能匹配字面量点号
+ * - 在环境变量中，反斜杠可能需要转义，例如：DNS_BLACKLIST=".*\\.googlebot\\.com"
+ * - 建议在代码中配置时使用单引号字符串，避免转义问题
  */
 export const DNS_BLACKLIST: string[] = (() => {
   // 优先从环境变量获取（支持逗号分隔的多个关键词）

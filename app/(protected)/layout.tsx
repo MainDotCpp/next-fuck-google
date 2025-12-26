@@ -45,10 +45,30 @@ function checkUrlParams(searchParams: string): boolean {
 }
 
 /**
- * 检查DNS反查结果是否在黑名单中
+ * 检查域名是否匹配正则表达式模式
+ * @param hostname 域名
+ * @param pattern 正则表达式模式
+ * @returns 是否匹配
+ */
+function matchRegex(hostname: string, pattern: string): boolean {
+  try {
+    const lowerHostname = hostname.toLowerCase()
+    // 直接使用正则表达式匹配，不区分大小写
+    const regex = new RegExp(pattern, 'i')
+    return regex.test(lowerHostname)
+  }
+  catch (error) {
+    // 如果正则表达式无效，记录错误但不拦截（避免配置错误导致所有请求被拦截）
+    console.error(`[DNS Blacklist] Invalid regex pattern: ${pattern}`, error)
+    return false // 无效的正则表达式不匹配任何内容
+  }
+}
+
+/**
+ * 检查DNS反查结果是否在黑名单中（支持正则表达式）
  * @param hostnames DNS反查得到的域名列表
- * @param blacklist 黑名单关键词列表
- * @returns 如果任何域名包含黑名单关键词则返回false（拦截），否则返回true（放行）
+ * @param blacklist 黑名单正则表达式模式列表
+ * @returns 如果任何域名匹配黑名单则返回false（拦截），否则返回true（放行）
  */
 function checkDnsBlacklist(hostnames: string[], blacklist: string[]): boolean {
   // 如果黑名单为空，则放行
@@ -59,11 +79,10 @@ function checkDnsBlacklist(hostnames: string[], blacklist: string[]): boolean {
   if (hostnames.length === 0)
     return true
 
-  // 检查每个域名是否包含黑名单中的任何关键词
+  // 检查每个域名是否匹配黑名单中的任何正则表达式
   for (const hostname of hostnames) {
-    const lowerHostname = hostname.toLowerCase()
-    for (const keyword of blacklist) {
-      if (lowerHostname.includes(keyword)) {
+    for (const pattern of blacklist) {
+      if (matchRegex(hostname, pattern)) {
         return false // 匹配到黑名单，拦截
       }
     }

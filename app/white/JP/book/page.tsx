@@ -443,6 +443,40 @@ export default function BookPage() {
           <span className={styles.amazonText}>Amazonで詳しく見る</span>
         </a>
       </div>
+      {/* 構造化データ（JSON-LD）for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Book',
+            'name': '買い時・売り時がひと目でわかる 株価チャート大全',
+            'author': {
+              '@type': 'Person',
+              'name': '戸松 信博',
+            },
+            'datePublished': '2024',
+            'bookFormat': 'Paperback',
+            'isbn': '978-4-262-17480-8',
+            'numberOfPages': 256,
+            'description': '100のチャートパターンで「待つ・仕掛ける・引く」の判断軸を体系化。個人投資家の武器になる実践ガイド。プロが厳選した頻出「買い・売りパターン」を網羅。',
+            'image': '/stockbookseller/images/71vIEA17pjL._SL1500_.jpg',
+            'offers': {
+              '@type': 'Offer',
+              'price': '1650',
+              'priceCurrency': 'JPY',
+              'availability': 'https://schema.org/InStock',
+              'url': 'https://www.amazon.co.jp/dp/4262174808?tag=awajiweb-22',
+              'seller': {
+                '@type': 'Organization',
+                'name': 'Amazon.co.jp',
+              },
+            },
+            'keywords': '株価チャート, 株式投資, テクニカル分析, チャートパターン, ローソク足, 移動平均線, 投資本',
+            'inLanguage': 'ja',
+          }),
+        }}
+      />
     </div>
   )
 }
